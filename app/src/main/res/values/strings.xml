@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Oblivion</string>
+    <string name="unable_to_show_key">Your Key could not be displayed!</string>
+    <string name="id_copied">Key copied to clipboard!</string>
+    <string name="first_warning">Are you sure you want to wipe?</string>
+    <string name="cancel">Cancel</string>
+    <string name="proceed">Proceed</string>
+    <string name="your_id">Remote Wipe Key</string>
+    <string name="wipe">Wipe!</string>
+    <string name="qrcode">QR-code</string>
+    <string name="select_language">Select language</string>
+    <string name="device_admin">Device Admin</string>
+    <string name="notification_reader">Notification Listener</string>
+    <string name="info_first_part">This app will wipe the device when a notification is received that contains your Key shown on the main screen.\n\nThis notification can come from any messaging app.\n\nSave your Key on a device that can send messages to this device in order to wipe this device remotely.\n\n</string>
+    <string name="perms_required">PERMISSIONS REQUIRED</string>
+    <string name="info_second_part">1. Swipe down from the top of the screen twice\n\n• First swipe: shows notifications\n• Second swipe: opens the full Quick Settings panel\n\n2. Tap the \&#xfffc; icon (at the bottom right of the panel)\n\n3. Scroll through the list of available tiles and find the Wipe button at the bottom\n\n4. Press and hold the button, then place it where you want\n\n5. Tap the back button to stop editing the menu. It will save automatically</string>
+    <string name="how_it_works">HOW THE APP WORKS</string>
+    <string name="panic_wipe_button">PANIC WIPE BUTTON</string>
+    <string name="remote_wipe">REMOTE WIPE</string>
+    <string name="share_id">Share your Key</string>
+    <string name="close">Close</string>
+    <string name="next">Next</string>
+    <string name="done_next">Done, click \'next\'</string>
+    <string name="one_week">1 Week</string>
+    <string name="two_weeks">2 Weeks</string>
+    <string name="one_month">1 Month</string>
+    <string name="two_months">2 Months</string>
+    <string name="three_months">3 Months</string>
+    <string-array name="wipe_time_options">
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+        <item>@string/two_months</item>
+        <item>@string/three_months</item>
+    </string-array>
+    <string name="wipe_time_no_unlock">Wipe if not unlocked for</string>
+    <string name="wipe_no_unlock_title">NO UNLOCK WIPE</string>
+    <string name="info_third_part">When the device is not unlocked within the specified time, it will automatically wipe. Be careful to set a sufficient timer before going on holidays or leaving the device in a drawer!</string>
+</resources>

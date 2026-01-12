@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Oblivion</string>
+    <string name="unable_to_show_key">Ваш ключ не может быть отображен!</string>
+    <string name="id_copied">Идентификатор скопирован в буфер обмена!</string>
+    <string name="first_warning">Вы уверены, что хотите удалить?</string>
+    <string name="cancel">Отменить</string>
+    <string name="proceed">Продолжить</string>
+    <string name="your_id">Ваш идентификатор</string>
+    <string name="wipe">Протри!</string>
+    <string name="qrcode">QR-код</string>
+    <string name="select_language">Выберите язык</string>
+    <string name="device_admin">Администратор устройства</string>
+    <string name="notification_reader">Слушатель уведомлений</string>
+    <string name="info_first_part">Это приложение очистит устройство при получении уведомления, содержащего ваш идентификатор, отображаемый на главном экране.\n\nЭто уведомление может поступать из любого приложения для обмена сообщениями.\n\nСохраните свой идентификатор на устройстве, которое может отправлять сообщения на это устройство, чтобы удалить данные с него удаленно.\n\n</string>
+    <string name="perms_required">ТРЕБУЮТСЯ РАЗРЕШЕНИЯ</string>
+    <string name="info_second_part">1. Проведите вниз от верхнего края экрана два раза\n\n• Первый свайп: показывает уведомления\n• Второй свайп: открывает полную панель быстрых настроек\n\n2. Нажмите на значок \&#xfffc; (внизу справа на панели)\n\n3. Пролистайте список доступных плиток и найдите кнопку Wipe в самом низу\n\n4. Нажмите и удерживайте кнопку, затем поместите её туда, где вам нужно\n\n5. Нажмите кнопку «Назад», чтобы завершить редактирование меню. Изменения сохранятся автоматически</string>
+    <string name="how_it_works">КАК РАБОТАЕТ ПРИЛОЖЕНИЕ</string>
+    <string name="panic_wipe_button">КНОПКА ПАНИЧЕСКОГО СТИРАНИЯ</string>
+    <string name="remote_wipe">УДАЛЕННОЕ СТИРАНИЕ</string>
+    <string name="share_id">Поделитесь своим идентификатором</string>
+    <string name="close">Закрыть</string>
+    <!--Break-->
+    <string name="next">следующий</string>
+    <string name="done_next">Готово, нажмите \'следующий\'</string>
+    <string name="wipe_time_no_unlock">Стереть, если не разблокировано в течение</string>
+    <string name="two_weeks">2 недели</string>
+    <string name="one_month">1 месяц</string>
+    <string name="two_months">2 месяца</string>
+    <string name="one_week">1 неделя</string>
+    <string name="three_months">3 месяца</string>
+    <string-array name="wipe_time_options">
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+        <item>@string/two_months</item>
+        <item>@string/three_months</item>
+    </string-array>
+    <string name="wipe_no_unlock_title">БЕЗ РАЗБЛОКИРОВКИ И СТИРАНИЯ</string>
+    <string name="info_third_part">Если устройство не будет разблокировано в течение указанного времени, оно автоматически очистится. Будьте осторожны и установите достаточный таймер, прежде чем уезжать в отпуск или оставлять устройство в ящике!</string>
+</resources>

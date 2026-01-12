@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Oblivion</string>
+    <string name="unable_to_show_key">¡No se pudo mostrar su clave!</string>
+    <string name="id_copied">¡ID copiado al portapapeles!</string>
+    <string name="first_warning">¿Estás seguro de que quieres borrar?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="proceed">Continuar</string>
+    <string name="your_id">Tu identificación</string>
+    <string name="wipe">¡Limpia!</string>
+    <string name="qrcode">Código QR</string>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="device_admin">Administrador del dispositivo</string>
+    <string name="notification_reader">Escuchador de notificaciones</string>
+    <string name="info_first_part">Esta aplicación borrará el dispositivo cuando se reciba una notificación que contenga su ID, que se muestra en la pantalla principal.\n\nEsta notificación puede provenir de cualquier aplicación de mensajería.\n\nGuarde su ID en un dispositivo que pueda enviar mensajes a este dispositivo para poder borrarlo de forma remota.\n\n</string>
+    <string name="perms_required">PERMISOS REQUERIDOS</string>
+    <string name="info_second_part">1. Desliza hacia abajo desde la parte superior de la pantalla dos veces\n\n• Primer deslizamiento: muestra las notificaciones\n• Segundo deslizamiento: abre el panel completo de Ajustes rápidos\n\n2. Toca el icono \&#xfffc; (en la parte inferior derecha del panel)\n\n3. Desplázate por la lista de mosaicos disponibles y busca el botón Wipe en la parte inferior\n\n4. Mantén pulsado el botón y colócalo donde quieras\n\n5. Toca el botón Atrás para dejar de editar el menú. Se guardará automáticamente</string>
+    <string name="how_it_works">CÓMO FUNCIONA LA APLICACIÓN</string>
+    <string name="panic_wipe_button">BOTÓN DE BORRADO DE PÁNICO</string>
+    <string name="remote_wipe">BORRADO REMOTO</string>
+    <string name="share_id">Comparte tu identificación</string>
+    <string name="close">Cerrar</string>
+    <!--Break-->
+    <string name="next">Siguiente</string>
+    <string name="done_next">Hecho, haz clic en \'Siguiente\'.</string>
+    <string name="wipe_time_no_unlock">Borrar después de no haberse desbloqueado durante</string>
+    <string name="one_week">1 semana</string>
+    <string name="two_weeks">2 semanas</string>
+    <string name="one_month">1 mes</string>
+    <string name="two_months">2 meses</string>
+    <string name="three_months">3 meses</string>
+    <string-array name="wipe_time_options">
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+        <item>@string/two_months</item>
+        <item>@string/three_months</item>
+    </string-array>
+    <string name="wipe_no_unlock_title">NO DESBLOQUEAR BORRAR</string>
+    <string name="info_third_part">Si el dispositivo no se desbloquea en el tiempo especificado, se borrarán automáticamente todos los datos. ¡Asegúrate de configurar un temporizador con suficiente antelación antes de irte de vacaciones o dejar el dispositivo en un cajón!</string>
+</resources>

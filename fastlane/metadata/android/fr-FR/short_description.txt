@@ -1,0 +1,1 @@
+Déclenchement à distance du verrouillage ou de l’effacement d’un appareil.

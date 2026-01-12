@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Oblivion</string>
+    <string name="unable_to_show_key">Nøkkelen din kunne ikke vises!</string>
+    <string name="id_copied">ID kopiert til utklippstavlen!</string>
+    <string name="first_warning">Er du sikker på at du vil slet systemet?</string>
+    <string name="cancel">Avbryt</string>
+    <string name="proceed">Fortsett</string>
+    <string name="your_id">ID-en din</string>
+    <string name="wipe">Slett!</string>
+    <string name="qrcode">QR-kode</string>
+    <string name="select_language">Velg språk</string>
+    <string name="device_admin">Enhetsadministrator</string>
+    <string name="notification_reader">Varslingslytter</string>
+    <string name="info_first_part">Denne appen sletter enheten når den mottar en melding som inneholder ID-en din som vises på hovedskjermen.\n\nDenne meldingen kan komme fra hvilken som helst meldingsapp.\n\nLagre ID-en din på en enhet som kan sende meldinger til denne enheten for å slette denne enheten eksternt.\n\n</string>
+    <string name="perms_required">KRAV TIL TILLATELSER</string>
+    <string name="info_second_part">1. Dra ned fra toppen av skjermen to ganger\n\n• Første sveip: viser varsler\n• Andre sveip: åpner hele Hurtiginnstillinger-panelet\n\n2. Trykk på \&#xfffc;-ikonet (nederst til høyre i panelet)\n\n3. Bla gjennom listen over tilgjengelige fliser og finn Wipe-knappen nederst\n\n4. Trykk og hold knappen, og plasser den der du vil\n\n5. Trykk på tilbakeknappen for å avslutte redigeringen. Den lagres automatisk</string>
+    <string name="how_it_works">HVORDAN APPEN FUNGERER</string>
+    <string name="panic_wipe_button">PANIKK-SLETT-KNAPP</string>
+    <string name="remote_wipe">FJERNSLETTING</string>
+    <string name="share_id">Del din ID</string>
+    <string name="close">Lukk</string>
+    <!--Break-->
+    <string name="next">Neste</string>
+    <string name="done_next">Ferdig, trykk på \'Neste\'</string>
+    <string name="wipe_time_no_unlock">Slett etter ikke låst opp på</string>
+    <string name="one_week">1 uke</string>
+    <string name="two_weeks">2 uker</string>
+    <string name="one_month">1 måned</string>
+    <string name="two_months">2 måneder</string>
+    <string name="three_months">3 måneder</string>
+    <string-array name="wipe_time_options">
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+        <item>@string/two_months</item>
+        <item>@string/three_months</item>
+    </string-array>
+    <string name="wipe_no_unlock_title">INGEN LÅSE OPP SLETT</string>
+    <string name="info_third_part">Hvis enheten ikke låses opp innen den angitte tiden, vil den automatisk slette alle data. Sørg for å stille inn en tilstrekkelig lang tid før du drar på ferie eller legger enheten i en skuff!</string>
+</resources>

@@ -1,0 +1,26 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.ncorti.slidetoact.SlideToActView
+        android:id="@+id/final_wipe_slider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:outer_color="#1B1B1B"
+        app:inner_color="@color/foreground"
+        app:border_radius="8dp"
+        app:area_margin="4dp"
+        app:text="@string/wipe"
+        app:text_size="16sp"
+        app:text_color="@color/text"
+        app:slider_height="56dp"
+        app:slider_locked="false" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

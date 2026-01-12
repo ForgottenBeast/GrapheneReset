@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Oblivion</string>
+    <string name="unable_to_show_key">Impossibile visualizzare la tua chiave!</string>
+    <string name="id_copied">ID copiato negli appunti!</string>
+    <string name="first_warning">Sei sicuro di voler cancellare?</string>
+    <string name="cancel">Annulla</string>
+    <string name="proceed">Procedere</string>
+    <string name="your_id">Il tuo ID</string>
+    <string name="wipe">Pulisci!</string>
+    <string name="qrcode">Codice QR</string>
+    <string name="select_language">Selezionare la lingua</string>
+    <string name="device_admin">Amministrazione dispositivi</string>
+    <string name="notification_reader">Ascoltatore notifiche</string>
+    <string name="info_first_part">Questa app cancellerà tutti i dati dal dispositivo quando riceverà una notifica contenente il tuo ID visualizzato nella schermata principale.\n\nQuesta notifica può provenire da qualsiasi app di messaggistica.\n\nSalva il tuo ID su un dispositivo in grado di inviare messaggi a questo dispositivo per poterlo cancellare da remoto.\n\n</string>
+    <string name="perms_required">AUTORIZZAZIONI RICHIESTE</string>
+    <string name="info_second_part">1. Scorri verso il basso dall\&apos;alto dello schermo due volte\n\n• Primo scorrimento: mostra le notifiche\n• Secondo scorrimento: apre il pannello completo delle Impostazioni rapide\n\n2. Tocca l\&apos;icona \&#xfffc; (in basso a destra nel pannello)\n\n3. Scorri l\&apos;elenco dei riquadri disponibili e trova il pulsante Wipe in fondo\n\n4. Tieni premuto il pulsante, poi posizionalo dove vuoi\n\n5. Tocca il pulsante Indietro per smettere di modificare il menu. Verrà salvato automaticamente</string>
+    <string name="how_it_works">COME FUNZIONA L\&apos;APP</string>
+    <string name="panic_wipe_button">PULSANTE DI CANCELLAZIONE DI EMERGENZA</string>
+    <string name="remote_wipe">CANCELLAZIONE REMOTA</string>
+    <string name="share_id">Condividi il tuo ID</string>
+    <string name="close">Chiudi</string>
+    <!--Break-->
+    <string name="next">Successivo</string>
+    <string name="done_next">Fatto, clicca su \'Successivo\'</string>
+    <string name="wipe_time_no_unlock">Cancella dopo non sbloccato per</string>
+    <string name="one_week">1 settimana</string>
+    <string name="two_weeks">2 settimane</string>
+    <string name="one_month">1 mese</string>
+    <string name="two_months">2 mesi</string>
+    <string name="three_months">3 mesi</string>
+    <string-array name="wipe_time_options">
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+        <item>@string/two_months</item>
+        <item>@string/three_months</item>
+    </string-array>
+    <string name="wipe_no_unlock_title">NESSUN BLOCCO CANCELLAZIONE</string>
+    <string name="info_third_part">Se il dispositivo non viene sbloccato entro il tempo specificato, verrà automaticamente cancellato. Assicurati di impostare un timer sufficiente prima di andare in vacanza o lasciare il dispositivo in un cassetto!</string>
+</resources>

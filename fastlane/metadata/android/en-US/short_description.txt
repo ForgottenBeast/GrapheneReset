@@ -1,0 +1,1 @@
+Remote lock and wipe triggers for compromised or unattended devices.

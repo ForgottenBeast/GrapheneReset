@@ -1,0 +1,25 @@
+Oblivion is a security-focused Android application that allows a user to lock or wipe a device when compromise is suspected.
+
+The application is intended for high-risk situations such as device loss, forced unlock, or temporary loss of physical control.
+
+Trigger methods:
+    * Panic button (launcher shortcut, Quick Settings tile, PanicKit integration)
+    * Remote message containing a secret code
+    * QR code based device identifier sharing
+    * Automatic triggers
+    * Trigger when the device has not been unlocked for a configurable period of time (including support for GrapheneOS)
+
+Actions:
+    * Lock the device
+    * Perform a factory reset (wipe)
+
+Device control is implemented using the Android Device Administration API.
+
+Security notes:
+    * Only encrypted devices can guarantee that data cannot be recovered
+    * The application does not function in Safe Mode
+    * For baseline device hardening, see Sentry
+
+License
+Free and Open Source Software
+GPL-3.0

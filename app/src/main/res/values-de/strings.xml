@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Oblivion</string>
+    <string name="unable_to_show_key">Ihr Schlüssel konnte nicht angezeigt werden!</string>
+    <string name="id_copied">ID in die Zwischenablage kopiert!</string>
+    <string name="first_warning">Möchten Sie wirklich löschen?</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="proceed">Weitermachen</string>
+    <string name="your_id">Ihre ID</string>
+    <string name="wipe">Wisch!</string>
+    <string name="qrcode">QR-Code</string>
+    <string name="select_language">Sprache auswählen</string>
+    <string name="device_admin">Geräteverwaltung</string>
+    <string name="notification_reader">Benachrichtigungslistener</string>
+    <string name="info_first_part">Diese App löscht alle Daten auf dem Gerät, wenn eine Benachrichtigung mit Ihrer auf dem Hauptbildschirm angezeigten ID empfangen wird.\n\nDiese Benachrichtigung kann von jeder beliebigen Messaging-App stammen.\n\nSpeichern Sie Ihre ID auf einem Gerät, das Nachrichten an dieses Gerät senden kann, um dieses Gerät aus der Ferne zu löschen.\n\n</string>
+    <string name="perms_required">ERFORDERLICHE GENEHMIGUNGEN</string>
+    <string name="info_second_part">1. Wische zweimal vom oberen Bildschirmrand nach unten\n\n• Erster Wisch: zeigt Benachrichtigungen\n• Zweiter Wisch: öffnet das vollständige Schnelleinstellungen-Panel\n\n2. Tippe auf das \&#xfffc;-Symbol (unten rechts im Panel)\n\n3. Scrolle durch die Liste der verfügbaren Kacheln und finde unten die Schaltfläche Wipe\n\n4. Halte die Schaltfläche gedrückt und platziere sie dort, wo du sie haben möchtest\n\n5. Tippe auf die Zurück-Taste, um die Bearbeitung zu beenden. Es wird automatisch gespeichert</string>
+    <string name="how_it_works">WIE DIE APP FUNKTIONIERT</string>
+    <string name="panic_wipe_button">PANIK-LÖSCH-TASTE</string>
+    <string name="remote_wipe">FERNWISCHEN</string>
+    <string name="share_id">Teilen Sie Ihre ID</string>
+    <string name="close">Schließen</string>
+    <!--Break-->
+    <string name="next">Weiter</string>
+    <string name="done_next">Fertig, klicken Sie auf \'Weiter\'</string>
+    <string name="wipe_time_no_unlock">Löschen, wenn nicht entsperrt seit</string>
+    <string name="one_week">1 Woche</string>
+    <string name="two_weeks">2 Wochen</string>
+    <string name="one_month">1 Monat</string>
+    <string name="two_months">2 Monate</string>
+    <string name="three_months">3 Monate</string>
+    <string-array name="wipe_time_options">
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+        <item>@string/two_months</item>
+        <item>@string/three_months</item>
+    </string-array>
+    <string name="wipe_no_unlock_title">KEIN UNLOCK WIPE</string>
+    <string name="info_third_part">Wenn das Gerät nicht innerhalb der festgelegten Zeit entsperrt wird, werden alle Daten automatisch gelöscht. Achten Sie darauf, einen ausreichend langen Timer einzustellen, bevor Sie in den Urlaub fahren oder das Gerät in einer Schublade lassen!</string>
+</resources>

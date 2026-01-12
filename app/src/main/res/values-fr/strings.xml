@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Oblivion</string>
+    <string name="unable_to_show_key">Votre clé n\\\'a pas pu être affichée !</string>
+    <string name="id_copied">ID copié dans le presse-papiers!</string>
+    <string name="first_warning">Êtes-vous sûr de vouloir effacer ?</string>
+    <string name="cancel">Annuler</string>
+    <string name="proceed">Continuer</string>
+    <string name="your_id">Votre identifiant</string>
+    <string name="wipe">Essuie!</string>
+    <string name="qrcode">Code QR</string>
+    <string name="select_language">Sélectionnez la langue</string>
+    <string name="device_admin">Administration des appareils</string>
+    <string name="notification_reader">Écouteur de notifications</string>
+    <string name="info_first_part">Cette application effacera le contenu de l\&apos;appareil lorsqu\&apos;une notification contenant votre identifiant affiché sur l\&apos;écran principal sera reçue.\n\nCette notification peut provenir de n\&apos;importe quelle application de messagerie.\n\nEnregistrez votre identifiant sur un appareil capable d\&apos;envoyer des messages à cet appareil afin de pouvoir l\&apos;effacer à distance.\n\n</string>
+    <string name="perms_required">AUTORISATIONS REQUISES</string>
+    <string name="info_second_part">1. Faites glisser deux fois vers le bas depuis le haut de l\&apos;écran\n\n• Premier balayage : affiche les notifications\n• Deuxième balayage : ouvre le panneau complet des Paramètres rapides\n\n2. Appuyez sur l\&apos;icône \&#xfffc; (en bas à droite du panneau)\n\n3. Faites défiler la liste des tuiles disponibles et trouvez le bouton Wipe tout en bas\n\n4. Appuyez longuement sur le bouton, puis placez-le où vous voulez\n\n5. Appuyez sur le bouton Retour pour arrêter la modification. Cela s\&apos;enregistrera automatiquement</string>
+    <string name="how_it_works">COMMENT FONCTIONNE L\&apos;APPLICATION</string>
+    <string name="panic_wipe_button">BOUTON D\&apos;ÉCURAGE DE PANIQUE</string>
+    <string name="remote_wipe">Effacement à distance</string>
+    <string name="share_id">Partagez votre identifiant</string>
+    <string name="close">Fermer</string>
+    <!--Break-->
+    <string name="next">Suivant</string>
+    <string name="done_next">C\&apos;est fait, cliquez sur \&apos;Suivant\&apos;.</string>
+    <string name="wipe_time_no_unlock">Effacer après non déverrouillage pendant</string>
+    <string name="one_week">1 semaine</string>
+    <string name="two_weeks">2 semaines</string>
+    <string name="one_month">1 mois</string>
+    <string name="two_months">2 mois</string>
+    <string name="three_months">3 mois</string>
+    <string-array name="wipe_time_options">
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+        <item>@string/two_months</item>
+        <item>@string/three_months</item>
+    </string-array>
+    <string name="wipe_no_unlock_title">PAS DE VERROUILLAGE EFFACEMENT</string>
+    <string name="info_third_part">Si l\'appareil n\'est pas déverrouillé dans le délai spécifié, il s\'effacera automatiquement. Veillez à régler un minuteur suffisamment long avant de partir en vacances ou de laisser l\'appareil dans un tiroir !</string>
+</resources>

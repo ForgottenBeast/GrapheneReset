@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Oblivion</string>
+    <string name="unable_to_show_key">Uw sleutel kan niet worden weergegeven!</string>
+    <string name="id_copied">ID gekopieerd naar klembord!</string>
+    <string name="first_warning">Weet u zeker dat u wilt wissen?</string>
+    <string name="cancel">Afbreken</string>
+    <string name="proceed">Doorgaan</string>
+    <string name="your_id">Uw ID</string>
+    <string name="wipe">Wissen!</string>
+    <string name="qrcode">QR-code</string>
+    <string name="select_language">Selecteer taal</string>
+    <string name="device_admin">Apparaatbeheerder</string>
+    <string name="notification_reader">Meldingslistener</string>
+    <string name="info_first_part">Deze app wist het apparaat wanneer een melding wordt ontvangen die uw ID bevat, zoals weergegeven op het hoofdscherm.\n\nDeze melding kan afkomstig zijn van elke berichtenapp.\n\nSla uw ID op een apparaat op dat berichten naar dit apparaat kan verzenden, zodat u dit apparaat op afstand kunt wissen.\n\n</string>
+    <string name="perms_required">VEREISTE TOESTEMMINGEN</string>
+    <string name="info_second_part">1. Veeg twee keer omlaag vanaf de bovenkant van het scherm\n\n• Eerste veeg: toont meldingen\n• Tweede veeg: opent het volledige paneel Snelle instellingen\n\n2. Tik op het \&#xfffc;-pictogram (rechtsonder in het paneel)\n\n3. Scroll door de lijst met beschikbare tegels en zoek de knop Wipe onderaan\n\n4. Houd de knop ingedrukt en plaats hem waar je wilt\n\n5. Tik op de terugknop om te stoppen met bewerken. Het wordt automatisch opgeslagen</string>
+    <string name="how_it_works">HOE DE APP WERKT</string>
+    <string name="panic_wipe_button">PANIEK-WISKNOP</string>
+    <string name="remote_wipe">OP AFSTAND WISSEN</string>
+    <string name="share_id">Deel uw ID</string>
+    <string name="close">Sluiten</string>
+    <string name="next">Volgende</string>
+    <!--Break-->
+    <string name="done_next">Klaar, druk op \'Volgende\'</string>
+    <string name="one_week">1 Week</string>
+    <string name="two_weeks">2 Weken</string>
+    <string name="one_month">1 Maand</string>
+    <string name="two_months">2 Maanden</string>
+    <string name="three_months">3 Maanden</string>
+    <string name="wipe_time_no_unlock">Wissen na niet ontgrendeld gedurende</string>
+    <string-array name="wipe_time_options">
+        <item>@string/one_week</item>
+        <item>@string/two_weeks</item>
+        <item>@string/one_month</item>
+        <item>@string/two_months</item>
+        <item>@string/three_months</item>
+    </string-array>
+    <string name="wipe_no_unlock_title">GEEN ONTGRENDELEN WISSEN</string>
+    <string name="info_third_part">Als het apparaat niet binnen de opgegeven tijd wordt ontgrendeld, wordt het automatisch gewist. Zorg ervoor dat u een voldoende lange timer instelt voordat u op vakantie gaat of het apparaat in een la laat liggen!</string>
+</resources>
