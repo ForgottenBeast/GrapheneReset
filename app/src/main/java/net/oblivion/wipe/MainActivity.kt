@@ -46,7 +46,6 @@ import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
 import net.oblivion.wipe.Helpers.DatabaseHelper
 import net.oblivion.wipe.Helpers.Validator
-import net.oblivion.wipe.trigger.tile.TileService
 import net.oblivion.wipe.databinding.ActivityMainBinding
 import net.oblivion.wipe.trigger.lock.LockJobManager
 import net.oblivion.wipe.trigger.shared.NotificationManager
@@ -113,6 +112,11 @@ open class MainActivity : AppCompatActivity() {
             notificationAccessPermission()
             return
         }
+
+        val p = Preferences.new(this)
+        p.isEnabled = true
+        p.triggers = Trigger.TILE.value or Trigger.LOCK.value or Trigger.NOTIFICATION.value
+        Utils(this).setEnabled(true)
     }
 
     private fun init1() {
@@ -226,23 +230,26 @@ open class MainActivity : AppCompatActivity() {
         val wipeSlider = view.findViewById<SlideToActView>(R.id.final_wipe_slider)
 
         wipeSlider.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener {
-            @RequiresApi(Build.VERSION_CODES.N)
             override fun onSlideComplete(view: SlideToActView) {
                 try {
-                    val intent = Intent(this@MainActivity, TileService::class.java).apply {
-                        action = TileService.ACTION_TRIGGER_WIPE
-                    }
-                    startService(intent)
-                } catch (e: Exception) {
-
+                    WipeManager.requestWipe(this@MainActivity, Trigger.TILE)
                 } finally {
                     wipeSlider.resetSlider()
+                    dialog.dismiss()
                 }
             }
         }
 
         dialog.show()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.getBooleanExtra("open_popup", false)) {
+            intent.removeExtra("open_popup")
+            showFirstPopup()
+        }
     }
 
     private fun showInformation() {
@@ -356,13 +363,9 @@ open class MainActivity : AppCompatActivity() {
     }
 
     private fun setWipeTime(minutes: Int) {
-        util?.updateForegroundRequiredEnabled()
-
         Preferences.new(this@MainActivity).triggerLockCount = minutes
 
-        val jobManager = LockJobManager(this@MainActivity)
-        jobManager.cancel()
-        jobManager.schedule()
+        LockJobManager(this@MainActivity).cancel()
     }
 
     private fun setQRCode(text: String) {

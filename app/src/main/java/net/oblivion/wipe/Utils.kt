@@ -7,14 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.style.ImageSpan
-import android.widget.TextView
-import androidx.annotation.DrawableRes
-import androidx.appcompat.content.res.AppCompatResources
-
-import net.oblivion.wipe.admin.DeviceAdminManager
 import net.oblivion.wipe.trigger.notification.NotificationListenerService
 import net.oblivion.wipe.trigger.panic.PanicConnectionActivity
 import net.oblivion.wipe.trigger.panic.PanicResponderActivity
@@ -38,13 +30,10 @@ class Utils(private val ctx: Context) {
 
     fun setEnabled(enabled: Boolean) {
         val triggers = prefs.triggers
-        setPanicKitEnabled(enabled && triggers.and(Trigger.PANIC_KIT.value) != 0)
+
         setTileEnabled(enabled && triggers.and(Trigger.TILE.value) != 0)
-        setShortcutEnabled(enabled && triggers.and(Trigger.SHORTCUT.value) != 0)
-        setBroadcastEnabled(enabled && triggers.and(Trigger.BROADCAST.value) != 0)
         setNotificationEnabled(enabled && triggers.and(Trigger.NOTIFICATION.value) != 0)
-        updateForegroundRequiredEnabled()
-        updateApplicationEnabled()
+        updateForegroundRequiredEnabled() // (LOCK / inactivity)
     }
 
     fun setPanicKitEnabled(enabled: Boolean) {
@@ -92,15 +81,17 @@ class Utils(private val ctx: Context) {
         )
     }
 
-    public fun updateForegroundRequiredEnabled() {
+    fun updateForegroundRequiredEnabled() {
         val enabled = prefs.isEnabled
         val triggers = prefs.triggers
-        val isUSB = triggers.and(Trigger.USB.value) != 0
-        val foregroundEnabled = enabled && (triggers.and(Trigger.LOCK.value) != 0 || isUSB)
+
+        // ONLY LOCK/inactivity
+        val foregroundEnabled = enabled && triggers.and(Trigger.LOCK.value) != 0
+
         setForegroundEnabled(foregroundEnabled)
         setComponentEnabled(RestartReceiver::class.java, foregroundEnabled)
-        setComponentEnabled(UsbReceiver::class.java, enabled && isUSB)
     }
+
 
     private fun setForegroundEnabled(enabled: Boolean) =
         Intent(ctx.applicationContext, ForegroundService::class.java).also {
@@ -114,23 +105,23 @@ class Utils(private val ctx: Context) {
     private fun setComponentEnabled(cls: String, enabled: Boolean) =
         setComponentEnabled(ComponentName(ctx, cls), enabled)
 
-    private fun setComponentEnabled(componentName: ComponentName, enabled: Boolean) =
-        ctx.packageManager.setComponentEnabledSetting(
-            componentName,
-            if (enabled) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-            PackageManager.DONT_KILL_APP,
-        )
+    private fun setComponentEnabled(componentName: ComponentName, enabled: Boolean) {
+        try {
+            ctx.packageManager.setComponentEnabledSetting(
+                componentName,
+                if (enabled) PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                else PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP
+            )
+        } catch (_: IllegalArgumentException) {
+            // Component missing from manifest (or renamed). Don't crash the whole app.
+        }
+    }
 
     fun fire(trigger: Trigger, safe: Boolean = true) {
-        val admin = DeviceAdminManager(ctx)
-        try {
-            admin.lockNow()
-            admin.wipeData()
-
-        } catch (exc: SecurityException) {}
-        if (prefs.isRecastEnabled && safe) recast()
+        WipeManager.requestWipe(ctx, trigger, allowRecast = safe)
     }
+    internal fun recastPublic() = recast()
 
     fun isDeviceLocked() = ctx.getSystemService(KeyguardManager::class.java).isDeviceLocked
 

@@ -23,7 +23,9 @@ class ForegroundService : Service() {
 
     private lateinit var prefs: Preferences
     private lateinit var lockReceiver: LockReceiver
-    private val usbReceiver = UsbReceiver()
+    //private val usbReceiver = UsbReceiver()
+
+    //USB trigger is disabled an
 
     override fun onCreate() {
         super.onCreate()
@@ -44,8 +46,8 @@ class ForegroundService : Service() {
                 addAction(Intent.ACTION_USER_PRESENT)
                 addAction(Intent.ACTION_SCREEN_OFF)
             })
-        if (triggers.and(Trigger.USB.value) != 0)
-            registerReceiver(usbReceiver, IntentFilter(ACTION_USB_STATE))
+        //if (triggers.and(Trigger.USB.value) != 0)
+           //registerReceiver(usbReceiver, IntentFilter(ACTION_USB_STATE))
     }
 
     private fun deinit() {
@@ -53,7 +55,7 @@ class ForegroundService : Service() {
             try { unregisterReceiver(it) } catch (exc: IllegalArgumentException) {}
         }
         unregister(lockReceiver)
-        unregister(usbReceiver)
+        //unregister(usbReceiver)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -76,7 +78,7 @@ class ForegroundService : Service() {
                 return
             when (intent?.action) {
                 Intent.ACTION_USER_PRESENT -> {
-                    locked = false
+                    Preferences(context, encrypted = false).lastUnlockTime = System.currentTimeMillis()
                     LockJobManager(context).cancel()
                 }
                 Intent.ACTION_SCREEN_OFF -> {
@@ -103,19 +105,19 @@ class ForegroundService : Service() {
         }
     }
 
-    private class UsbReceiver : BroadcastReceiver() {
-        companion object {
-            private const val KEY_1 = "connected"
-            private const val KEY_2 = "host_connected"
-        }
-
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action != ACTION_USB_STATE) return
-            val utils = Utils(context ?: return)
-            if (!utils.isDeviceLocked()) return
-            val extras = intent.extras ?: return
-            if (!extras.getBoolean(KEY_1) && !extras.getBoolean(KEY_2)) return
-            utils.fire(Trigger.USB)
-        }
-    }
+    //private class UsbReceiver : BroadcastReceiver() {
+    //    companion object {
+    //        private const val KEY_1 = "connected"
+    //        private const val KEY_2 = "host_connected"
+    //    }
+//
+    //    override fun onReceive(context: Context?, intent: Intent?) {
+    //        if (intent?.action != ACTION_USB_STATE) return
+    //        val utils = Utils(context ?: return)
+    //        if (!utils.isDeviceLocked()) return
+    //        val extras = intent.extras ?: return
+    //        if (!extras.getBoolean(KEY_1) && !extras.getBoolean(KEY_2)) return
+    //        utils.fire(Trigger.USB)
+    //    }
+    //}
 }

@@ -13,6 +13,7 @@ class Preferences(ctx: Context, encrypted: Boolean = true) {
     companion object {
         var DEFAULT_TRIGGER_LOCK_COUNT = 30 * 24 * 60 // 30 days
         private const val DEFAULT_TRIGGER_TILE_DELAY = 2000L
+        private const val LAST_UNLOCK_TIME = "last_unlock_time"
         private const val ENABLED = "enabled"
         private const val SECRET = "secret"
         private const val WIPE_DATA = "wipe_data"
@@ -40,6 +41,10 @@ class Preferences(ctx: Context, encrypted: Boolean = true) {
                 ctx.getSystemService(UserManager::class.java).isUserUnlocked,
         )
     }
+
+    var lastUnlockTime: Long
+        get() = prefs.getLong(LAST_UNLOCK_TIME, 0L)
+        set(value) = prefs.edit { putLong(LAST_UNLOCK_TIME, value) }
 
     private val prefs: SharedPreferences = if (encrypted) {
         val mk = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
