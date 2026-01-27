@@ -3,7 +3,7 @@ Oblivion est une application Android orientée sécurité permettant à l’util
 Elle est destinée aux situations à risque élevé telles que la perte de l’appareil, le déverrouillage forcé ou la perte temporaire de contrôle physique.
 
 Méthodes de déclenchement:
-    * Bouton panique (raccourci, tuile Paramètres rapides, intégration PanicKit)
+    * Bouton panique (tuile Paramètres rapides)
     * Message distant contenant un code secret
     * Partage de l’identifiant de l’appareil via QR code
 
@@ -11,7 +11,6 @@ Déclenchement automatique:
     * Déclenchement lorsque l’appareil n’a pas été déverrouillé pendant une durée configurable (prise en charge de GrapheneOS)
 
 Actions:
-    * Verrouillage de l’appareil
     * Réinitialisation d’usine (effacement)
 
 Le contrôle de l’appareil est implémenté à l’aide de l’API Android Device Administration.
