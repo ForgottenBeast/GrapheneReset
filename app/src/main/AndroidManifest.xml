@@ -69,7 +69,7 @@
         <service
             android:name=".trigger.tile.TileService"
             android:directBootAware="true"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:icon="@drawable/ic_tile_icon_logo"
             android:label="@string/wipe"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:enabled="true"
