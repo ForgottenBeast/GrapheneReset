@@ -1,25 +1,21 @@
-Oblivion est une application Android orientée sécurité permettant à l’utilisateur de verrouiller ou d’effacer un appareil en cas de compromission.
+Oblivion est une application Android axée sur la sécurité qui permet à un utilisateur de verrouiller et d’effacer un appareil lorsqu’un déclencheur est activé.
 
-Elle est destinée aux situations à risque élevé telles que la perte de l’appareil, le déverrouillage forcé ou la perte temporaire de contrôle physique.
+L’application est conçue pour des situations à haut risque telles que la perte de l’appareil, un déverrouillage forcé ou une perte temporaire du contrôle physique.
 
 Méthodes de déclenchement:
-    * Bouton panique (tuile Paramètres rapides)
-    * Message distant contenant un code secret
-    * Partage de l’identifiant de l’appareil via QR code
-
-Déclenchement automatique:
-    * Déclenchement lorsque l’appareil n’a pas été déverrouillé pendant une durée configurable (prise en charge de GrapheneOS)
+    * Bouton panique (tuile des Paramètres rapides)
+    * Message à distance contenant un code secret
+    * Déclenchement lorsque l’appareil n’a pas été déverrouillé pendant une période configurable
 
 Actions:
-    * Réinitialisation d’usine (effacement)
+    * Effectuer une réinitialisation d’usine (effacement)
 
-Le contrôle de l’appareil est implémenté à l’aide de l’API Android Device Administration.
+Le contrôle de l’appareil est implémenté à l’aide de l’API d’administration des appareils Android. L’application prend entièrement en charge GrapheneOS.
 
-Remarques de sécurité:
-    * Seuls les appareils chiffrés garantissent l’irréversibilité des données
+Notes de sécurité:
+    * Seuls les appareils chiffrés (protégés par mot de passe) peuvent garantir que les données ne peuvent pas être récupérées
     * L’application ne fonctionne pas en mode sans échec
-    * Pour un renforcement de base de l’appareil, voir Sentry
 
 Licence
-Logiciel libre
+Logiciel libre et open source
 GPL-3.0

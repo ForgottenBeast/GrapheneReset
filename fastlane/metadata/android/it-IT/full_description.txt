@@ -1,25 +1,21 @@
-Oblivion è un’applicazione Android orientata alla sicurezza che consente all’utente di bloccare o cancellare un dispositivo in caso di compromissione.
+Oblivion è un’applicazione Android orientata alla sicurezza che consente a un utente di bloccare e cancellare un dispositivo quando viene attivato un trigger.
 
-È progettata per scenari ad alto rischio come lo smarrimento del dispositivo, lo sblocco forzato o la perdita temporanea del controllo fisico.
+L’applicazione è pensata per situazioni ad alto rischio come la perdita del dispositivo, lo sblocco forzato o la perdita temporanea del controllo fisico.
 
 Metodi di attivazione:
-    * Pulsante di emergenza (tile Impostazioni rapide)
+    * Pulsante di emergenza (riquadro delle Impostazioni rapide)
     * Messaggio remoto contenente un codice segreto
-    * Condivisione dell’identificatore del dispositivo tramite QR code
-
-Attivazione automatica:
-    * Attivazione quando il dispositivo non viene sbloccato per un periodo di tempo configurabile (supporto GrapheneOS)
+    * Attivazione quando il dispositivo non viene sbloccato per un periodo di tempo configurabile
 
 Azioni:
-    * Ripristino ai dati di fabbrica
+    * Eseguire un ripristino di fabbrica (cancellazione)
 
-Il controllo del dispositivo utilizza l’API Android Device Administration.
+Il controllo del dispositivo è implementato tramite l’API di Amministrazione dei dispositivi Android. L’applicazione supporta pienamente GrapheneOS.
 
 Note di sicurezza:
-    * Solo i dispositivi cifrati garantiscono che i dati non siano recuperabili
-    * L’applicazione non funziona in modalità provvisoria
-    * Per la sicurezza di base del dispositivo, consultare Sentry
+    * Solo i dispositivi crittografati (protetti da password) possono garantire che i dati non siano recuperabili
+    * L’applicazione non funziona in Modalità provvisoria
 
 Licenza
-Software libero
+Software libero e open source
 GPL-3.0
