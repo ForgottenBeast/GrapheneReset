@@ -1,2 +1,24 @@
 .omc
 result
+
+# Gradle files
+.gradle/
+build/
+output
+
+# Local configuration files
+local.properties
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# APK files
+*.apk
+*.aab
+
+# OS-specific files
+.DS_Store
+*~

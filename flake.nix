@@ -38,8 +38,10 @@
         androidSdk = android-nixpkgs.sdk.${system} (
           sdkPkgs: with sdkPkgs; [
             cmdline-tools-latest
+            build-tools-34-0-0 # Required by gradle dependencies
             build-tools-36-0-0 # GrapheneOS requires build-tools 36.0.0
             platform-tools
+            platforms-android-33 # Required by gradle dependencies
             platforms-android-35
             emulator
             # System images for emulator (x86_64 for faster development)
@@ -83,7 +85,7 @@
             export ANDROID_HOME="${androidSdk}/share/android-sdk"
             export ANDROID_SDK_ROOT="$ANDROID_HOME"
             export ANDROID_NDK_ROOT="$ANDROID_HOME/ndk-bundle"
-            export GRADLE_OPTS="-Dorg.gradle.project.android.aapt2FromMavenOverride=$ANDROID_HOME/build-tools/36.0.0/aapt2"
+            export GRADLE_OPTS="-Dorg.gradle.project.android.aapt2FromMavenOverride=$ANDROID_HOME/build-tools/34.0.0/aapt2"
             export JAVA_HOME="${pkgs.jdk21}"
             export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$JAVA_HOME/bin:$PATH"
 
@@ -223,7 +225,7 @@
           ANDROID_NDK_ROOT = "${androidSdk}/share/android-sdk/ndk-bundle";
 
           # Android-specific Gradle options
-          GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/share/android-sdk/build-tools/36.0.0/aapt2";
+          GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/share/android-sdk/build-tools/34.0.0/aapt2";
 
           # Include Android SDK in build inputs
           nativeBuildInputs = [ androidSdk ];
