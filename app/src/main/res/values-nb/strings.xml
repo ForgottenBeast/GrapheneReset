@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Oblivion</string>
+    <string name="app_name">GrapheneReset</string>
     <string name="unable_to_show_key">Nøkkelen din kunne ikke vises!</string>
     <string name="id_copied">ID kopiert til utklippstavlen!</string>
     <string name="first_warning">Er du sikker på at du vil slet systemet?</string>
@@ -29,13 +29,19 @@
     <string name="one_month">1 måned</string>
     <string name="two_months">2 måneder</string>
     <string name="three_months">3 måneder</string>
+    <string name="custom">Tilpasset</string>
     <string-array name="wipe_time_options">
         <item>@string/one_week</item>
         <item>@string/two_weeks</item>
         <item>@string/one_month</item>
         <item>@string/two_months</item>
         <item>@string/three_months</item>
+        <item>@string/custom</item>
     </string-array>
+    <string name="custom_time_title">Tilpasset tid</string>
+    <string name="custom_time_days">Dager</string>
+    <string name="ok">OK</string>
     <string name="wipe_no_unlock_title">INGEN LÅSE OPP SLETT</string>
     <string name="info_third_part">Hvis enheten ikke låses opp innen den angitte tiden, vil den automatisk slette alle data. Sørg for å stille inn en tilstrekkelig lang tid før du drar på ferie eller legger enheten i en skuff!</string>
+    <string name="current_custom_time">Gjeldende: %d dager</string>
 </resources>

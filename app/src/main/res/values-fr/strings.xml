@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Oblivion</string>
+    <string name="app_name">GrapheneReset</string>
     <string name="unable_to_show_key">Votre clé n\\\'a pas pu être affichée !</string>
     <string name="id_copied">ID copié dans le presse-papiers!</string>
     <string name="first_warning">Êtes-vous sûr de vouloir effacer ?</string>
@@ -29,13 +29,19 @@
     <string name="one_month">1 mois</string>
     <string name="two_months">2 mois</string>
     <string name="three_months">3 mois</string>
+    <string name="custom">Personnalisé</string>
     <string-array name="wipe_time_options">
         <item>@string/one_week</item>
         <item>@string/two_weeks</item>
         <item>@string/one_month</item>
         <item>@string/two_months</item>
         <item>@string/three_months</item>
+        <item>@string/custom</item>
     </string-array>
+    <string name="custom_time_title">Temps personnalisé</string>
+    <string name="custom_time_days">Jours</string>
+    <string name="ok">OK</string>
     <string name="wipe_no_unlock_title">PAS DE VERROUILLAGE EFFACEMENT</string>
     <string name="info_third_part">Si l\'appareil n\'est pas déverrouillé dans le délai spécifié, il s\'effacera automatiquement. Veillez à régler un minuteur suffisamment long avant de partir en vacances ou de laisser l\'appareil dans un tiroir !</string>
+    <string name="current_custom_time">Actuel: %d jours</string>
 </resources>

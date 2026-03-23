@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Oblivion</string>
+    <string name="app_name">GrapheneReset</string>
     <string name="unable_to_show_key">Uw sleutel kan niet worden weergegeven!</string>
     <string name="id_copied">ID gekopieerd naar klembord!</string>
     <string name="first_warning">Weet u zeker dat u wilt wissen?</string>
@@ -28,6 +28,7 @@
     <string name="one_month">1 Maand</string>
     <string name="two_months">2 Maanden</string>
     <string name="three_months">3 Maanden</string>
+    <string name="custom">Aangepast</string>
     <string name="wipe_time_no_unlock">Wissen na niet ontgrendeld gedurende</string>
     <string-array name="wipe_time_options">
         <item>@string/one_week</item>
@@ -35,7 +36,12 @@
         <item>@string/one_month</item>
         <item>@string/two_months</item>
         <item>@string/three_months</item>
+        <item>@string/custom</item>
     </string-array>
+    <string name="custom_time_title">Aangepaste tijd</string>
+    <string name="custom_time_days">Dagen</string>
+    <string name="ok">OK</string>
     <string name="wipe_no_unlock_title">GEEN ONTGRENDELEN WISSEN</string>
     <string name="info_third_part">Als het apparaat niet binnen de opgegeven tijd wordt ontgrendeld, wordt het automatisch gewist. Zorg ervoor dat u een voldoende lange timer instelt voordat u op vakantie gaat of het apparaat in een la laat liggen!</string>
+    <string name="current_custom_time">Huidig: %d dagen</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Oblivion</string>
+    <string name="app_name">GrapheneReset</string>
     <string name="unable_to_show_key">¡No se pudo mostrar su clave!</string>
     <string name="id_copied">¡ID copiado al portapapeles!</string>
     <string name="first_warning">¿Estás seguro de que quieres borrar?</string>
@@ -29,13 +29,19 @@
     <string name="one_month">1 mes</string>
     <string name="two_months">2 meses</string>
     <string name="three_months">3 meses</string>
+    <string name="custom">Personalizado</string>
     <string-array name="wipe_time_options">
         <item>@string/one_week</item>
         <item>@string/two_weeks</item>
         <item>@string/one_month</item>
         <item>@string/two_months</item>
         <item>@string/three_months</item>
+        <item>@string/custom</item>
     </string-array>
+    <string name="custom_time_title">Tiempo personalizado</string>
+    <string name="custom_time_days">Días</string>
+    <string name="ok">OK</string>
     <string name="wipe_no_unlock_title">NO DESBLOQUEAR BORRAR</string>
     <string name="info_third_part">Si el dispositivo no se desbloquea en el tiempo especificado, se borrarán automáticamente todos los datos. ¡Asegúrate de configurar un temporizador con suficiente antelación antes de irte de vacaciones o dejar el dispositivo en un cajón!</string>
+    <string name="current_custom_time">Actual: %d días</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Oblivion</string>
+    <string name="app_name">GrapheneReset</string>
     <string name="unable_to_show_key">Ihr Schlüssel konnte nicht angezeigt werden!</string>
     <string name="id_copied">ID in die Zwischenablage kopiert!</string>
     <string name="first_warning">Möchten Sie wirklich löschen?</string>
@@ -29,13 +29,19 @@
     <string name="one_month">1 Monat</string>
     <string name="two_months">2 Monate</string>
     <string name="three_months">3 Monate</string>
+    <string name="custom">Benutzerdefiniert</string>
     <string-array name="wipe_time_options">
         <item>@string/one_week</item>
         <item>@string/two_weeks</item>
         <item>@string/one_month</item>
         <item>@string/two_months</item>
         <item>@string/three_months</item>
+        <item>@string/custom</item>
     </string-array>
+    <string name="custom_time_title">Benutzerdefinierte Zeit</string>
+    <string name="custom_time_days">Tage</string>
+    <string name="ok">OK</string>
     <string name="wipe_no_unlock_title">KEIN UNLOCK WIPE</string>
     <string name="info_third_part">Wenn das Gerät nicht innerhalb der festgelegten Zeit entsperrt wird, werden alle Daten automatisch gelöscht. Achten Sie darauf, einen ausreichend langen Timer einzustellen, bevor Sie in den Urlaub fahren oder das Gerät in einer Schublade lassen!</string>
+    <string name="current_custom_time">Aktuell: %d Tage</string>
 </resources>

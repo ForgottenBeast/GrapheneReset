@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Oblivion</string>
+    <string name="app_name">GrapheneReset</string>
     <string name="unable_to_show_key">Impossibile visualizzare la tua chiave!</string>
     <string name="id_copied">ID copiato negli appunti!</string>
     <string name="first_warning">Sei sicuro di voler cancellare?</string>
@@ -29,13 +29,19 @@
     <string name="one_month">1 mese</string>
     <string name="two_months">2 mesi</string>
     <string name="three_months">3 mesi</string>
+    <string name="custom">Personalizzato</string>
     <string-array name="wipe_time_options">
         <item>@string/one_week</item>
         <item>@string/two_weeks</item>
         <item>@string/one_month</item>
         <item>@string/two_months</item>
         <item>@string/three_months</item>
+        <item>@string/custom</item>
     </string-array>
+    <string name="custom_time_title">Tempo personalizzato</string>
+    <string name="custom_time_days">Giorni</string>
+    <string name="ok">OK</string>
     <string name="wipe_no_unlock_title">NESSUN BLOCCO CANCELLAZIONE</string>
     <string name="info_third_part">Se il dispositivo non viene sbloccato entro il tempo specificato, verrà automaticamente cancellato. Assicurati di impostare un timer sufficiente prima di andare in vacanza o lasciare il dispositivo in un cassetto!</string>
+    <string name="current_custom_time">Attuale: %d giorni</string>
 </resources>

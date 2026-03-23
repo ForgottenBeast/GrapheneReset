@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Oblivion</string>
+    <string name="app_name">GrapheneReset</string>
     <string name="unable_to_show_key">Your Key could not be displayed!</string>
     <string name="id_copied">Key copied to clipboard!</string>
     <string name="first_warning">Are you sure you want to wipe?</string>
@@ -26,14 +26,20 @@
     <string name="one_month">1 Month</string>
     <string name="two_months">2 Months</string>
     <string name="three_months">3 Months</string>
+    <string name="custom">Custom</string>
     <string-array name="wipe_time_options">
         <item>@string/one_week</item>
         <item>@string/two_weeks</item>
         <item>@string/one_month</item>
         <item>@string/two_months</item>
         <item>@string/three_months</item>
+        <item>@string/custom</item>
     </string-array>
+    <string name="custom_time_title">Custom Time</string>
+    <string name="custom_time_days">Days</string>
+    <string name="ok">OK</string>
     <string name="wipe_time_no_unlock">Wipe if not unlocked for</string>
     <string name="wipe_no_unlock_title">NO UNLOCK WIPE</string>
     <string name="info_third_part">When the device is not unlocked within the specified time, it will automatically wipe. Be careful to set a sufficient timer before going on holidays or leaving the device in a drawer!</string>
+    <string name="current_custom_time">Current: %d days</string>
 </resources>

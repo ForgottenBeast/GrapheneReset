@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Oblivion</string>
+    <string name="app_name">GrapheneReset</string>
     <string name="unable_to_show_key">Ваш ключ не может быть отображен!</string>
     <string name="id_copied">Идентификатор скопирован в буфер обмена!</string>
     <string name="first_warning">Вы уверены, что хотите удалить?</string>
@@ -29,13 +29,19 @@
     <string name="two_months">2 месяца</string>
     <string name="one_week">1 неделя</string>
     <string name="three_months">3 месяца</string>
+    <string name="custom">Настраиваемый</string>
     <string-array name="wipe_time_options">
         <item>@string/one_week</item>
         <item>@string/two_weeks</item>
         <item>@string/one_month</item>
         <item>@string/two_months</item>
         <item>@string/three_months</item>
+        <item>@string/custom</item>
     </string-array>
+    <string name="custom_time_title">Пользовательское время</string>
+    <string name="custom_time_days">Дни</string>
+    <string name="ok">OK</string>
     <string name="wipe_no_unlock_title">БЕЗ РАЗБЛОКИРОВКИ И СТИРАНИЯ</string>
     <string name="info_third_part">Если устройство не будет разблокировано в течение указанного времени, оно автоматически очистится. Будьте осторожны и установите достаточный таймер, прежде чем уезжать в отпуск или оставлять устройство в ящике!</string>
+    <string name="current_custom_time">Текущий: %d дней</string>
 </resources>
