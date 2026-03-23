@@ -1,0 +1,243 @@
+{
+  description = "Android (GrapheneOS) development environment with Gradle and emulator";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    android-nixpkgs = {
+      url = "github:tadfisher/android-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    gradle2nix = {
+      url = "github:tadfisher/gradle2nix/30cfe5889188524223364ee7919d94e83d6ee44a";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      android-nixpkgs,
+      gradle2nix,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            android_sdk.accept_license = true;
+            allowUnfree = true;
+          };
+        };
+
+        # Android SDK composition using android-nixpkgs
+        # Configured for GrapheneOS development requirements
+        androidSdk = android-nixpkgs.sdk.${system} (
+          sdkPkgs: with sdkPkgs; [
+            cmdline-tools-latest
+            build-tools-36-0-0 # GrapheneOS requires build-tools 36.0.0
+            platform-tools
+            platforms-android-35
+            emulator
+            # System images for emulator (x86_64 for faster development)
+            system-images-android-35-default-x86-64
+            # GrapheneOS requires NDK 29.0.14206865 for native code
+            ndk-29-0-14206865
+          ]
+        );
+
+        # FHS environment for Gradle compatibility
+        # Required because Gradle expects a traditional filesystem layout
+        androidEnv = pkgs.buildFHSEnv {
+          name = "android-env";
+          targetPkgs =
+            _:
+            (with pkgs; [
+              # Android SDK and tools
+              androidSdk
+              # Java (required for Gradle and Android development)
+              jdk21
+              # Build tools
+              gradle
+              # Development tools
+              git
+              which
+              file
+              # Emulator dependencies
+              libGL
+              libpulseaudio
+              libx11
+              libxext
+              libxi
+              libxrender
+              libxtst
+              zlib
+            ]);
+          multiPkgs = _: (with pkgs; [ zlib ]);
+
+          # Set up Android environment variables
+          profile = ''
+            export ANDROID_HOME="${androidSdk}/share/android-sdk"
+            export ANDROID_SDK_ROOT="$ANDROID_HOME"
+            export ANDROID_NDK_ROOT="$ANDROID_HOME/ndk-bundle"
+            export GRADLE_OPTS="-Dorg.gradle.project.android.aapt2FromMavenOverride=$ANDROID_HOME/build-tools/36.0.0/aapt2"
+            export JAVA_HOME="${pkgs.jdk21}"
+            export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$JAVA_HOME/bin:$PATH"
+
+            # KVM acceleration for emulator (if available)
+            export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
+
+            # Gradle configuration
+            export GRADLE_USER_HOME="$PWD/.gradle"
+
+            echo "Android development environment loaded!"
+            echo "ANDROID_HOME: $ANDROID_HOME"
+            echo "Java version: $(java -version 2>&1 | head -1)"
+            echo ""
+            echo "Quick commands:"
+            echo "  gradle assembleDebug  - Build debug APK"
+            echo "  gradle assembleRelease - Build release APK"
+            echo "  emulator @<avd-name>  - Start emulator"
+            echo "  adb devices           - List connected devices"
+          '';
+          runScript = "bash";
+        };
+
+        # Helper script to create AVD
+        createAvdScript = pkgs.writeShellScriptBin "create-android-avd" ''
+          set -e
+          AVD_NAME="''${1:-pixel_8}"
+
+          echo "Creating Android Virtual Device: $AVD_NAME"
+          echo "System image: android-35 x86_64"
+
+          ${androidSdk}/bin/avdmanager create avd \
+            --name "$AVD_NAME" \
+            --package "system-images;android-35;default;x86_64" \
+            --device "pixel_8" \
+            --force
+
+          echo ""
+          echo "AVD created successfully!"
+          echo "Start it with: emulator @$AVD_NAME"
+        '';
+
+        # Helper script to build APK
+        buildApkScript = pkgs.writeShellScriptBin "build-apk" ''
+          set -e
+          BUILD_TYPE="''${1:-debug}"
+
+          echo "Building $BUILD_TYPE APK..."
+
+          ${androidEnv}/bin/android-env -c "gradle assemble''${BUILD_TYPE^}"
+
+          echo ""
+          echo "APK built successfully!"
+          find app/build/outputs/apk -name "*.apk" -type f
+        '';
+
+      in
+      {
+        # Development shell with Android SDK, Gradle, and emulator
+        # Includes GrapheneOS-specific build tools
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            androidEnv
+            createAvdScript
+            buildApkScript
+            # gradle2nix for generating dependency lock files
+            gradle2nix.packages.${system}.gradle2nix
+            # Additional useful tools
+            android-tools # adb, fastboot
+            android-studio # Android Studio IDE
+            # GrapheneOS-specific tools
+            nodejs_24 # Node.js 24 LTS for adevtool (vendor file extraction)
+            yarn # Package manager for Node.js tools
+            git-repo # AOSP version control tool
+            rsync # File synchronization
+            zip
+            unzip
+            openssh # For release signing with ssh-keygen
+          ];
+
+          shellHook = ''
+            echo "🤖 GrapheneOS/Android Development Environment"
+            echo "=============================================="
+            echo ""
+            echo "📦 Dependency Management:"
+            echo "  gradle2nix -t assembleRelease  - Generate gradle.lock"
+            echo ""
+            echo "🔧 Development Tools:"
+            echo "  android-env                    - Enter FHS environment"
+            echo "  create-android-avd [name]      - Create AVD"
+            echo "  build-apk [debug|release]      - Build APK"
+            echo "  android-studio                 - Launch Android Studio"
+            echo ""
+            echo "🔐 GrapheneOS Tools:"
+            echo "  node --version                 - Node.js 24 LTS (adevtool)"
+            echo "  yarn --version                 - Yarn package manager"
+            echo "  repo --version                 - AOSP version control"
+            echo "  ssh-keygen                     - Release signing tool"
+            echo ""
+            echo "🚀 Quick Start:"
+            echo "  1. android-env                 - Enter build environment"
+            echo "  2. gradle2nix -t assembleRelease - Generate lock file"
+            echo "  3. exit                        - Leave FHS environment"
+            echo "  4. nix build                   - Build reproducibly"
+            echo ""
+            echo "For full development, run: android-env"
+            echo "For GrapheneOS compatibility, avoid Google Play Services APIs"
+          '';
+        };
+
+        # Package to build APK using gradle2nix
+        packages.default = gradle2nix.builders.${system}.buildGradlePackage {
+          pname = "android-app";
+          version = "0.1.0";
+
+          src = ./.;
+
+          # Lock file generated by: gradle2nix -t assembleRelease
+          lockFile = ./gradle.lock;
+
+          # Gradle tasks to run
+          gradleFlags = [ "assembleRelease" ];
+
+          # Use JDK 21 for building
+          buildJdk = pkgs.jdk21;
+
+          # Set Android SDK environment variables
+          ANDROID_HOME = "${androidSdk}/share/android-sdk";
+          ANDROID_SDK_ROOT = "${androidSdk}/share/android-sdk";
+          ANDROID_NDK_ROOT = "${androidSdk}/share/android-sdk/ndk-bundle";
+
+          # Android-specific Gradle options
+          GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/share/android-sdk/build-tools/36.0.0/aapt2";
+
+          # Include Android SDK in build inputs
+          nativeBuildInputs = [ androidSdk ];
+
+          installPhase = ''
+            mkdir -p $out
+            cp -r app/build/outputs/apk/release/*.apk $out/
+          '';
+        };
+
+        # Emulator package for quick testing
+        packages.emulator = pkgs.writeShellScriptBin "run-android-emulator" ''
+          ${androidSdk}/bin/emulator "@''${1:-pixel_8}" \
+            -no-snapshot-save \
+            -gpu swiftshader_indirect \
+            "$@"
+        '';
+
+        apps.default = {
+          type = "app";
+          program = "${self.packages.${system}.emulator}/bin/run-android-emulator";
+        };
+      }
+    );
+}
