@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace "net.oblivion.wipe"
+    namespace "net.graphenereset.wipe"
     compileSdk 33
 
     defaultConfig {
-        applicationId "net.oblivion.wipe"
+        applicationId "net.graphenereset.wipe"
         minSdk 24
         targetSdk 33
         versionCode 44
