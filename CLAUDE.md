@@ -4,9 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Oblivion** is an emergency wipe application for Android/GrapheneOS. It provides a simple interface to trigger device wipes in emergency situations through multiple methods (quick settings tile, notification listener, lock timeout).
+**GrapheneReset** is an emergency wipe application for Android/GrapheneOS. It provides a simple interface to trigger device wipes in emergency situations through multiple methods (quick settings tile, notification listener, lock timeout).
 
-**Application ID**: `net.oblivion.wipe`
+**Note**: This project is a fork of Oblivion, renamed and updated for GrapheneOS compatibility and security enhancements.
+
+**Application ID**: `net.graphenereset.wipe`
 **Language**: Kotlin
 **Min SDK**: 24 (Android 7.0)
 **Target SDK**: 33 (Android 13)
@@ -87,23 +89,23 @@ nix build
 
 ### Core Components
 
-**WipeManager** (`app/src/main/java/net/oblivion/wipe/WipeManager.kt`)
+**WipeManager** (`app/src/main/java/net/graphenereset/wipe/WipeManager.kt`)
 - **CRITICAL**: The ONLY place in the app allowed to call `wipeData()`
 - Enforces allowlist of triggers: `TILE`, `LOCK`, `NOTIFICATION`
 - All wipe requests must go through `WipeManager.requestWipe()`
 - Validates device admin status and user preferences before executing
 
-**Trigger System** (`app/src/main/java/net/oblivion/wipe/Preferences.kt:140`)
+**Trigger System** (`app/src/main/java/net/graphenereset/wipe/Preferences.kt:140`)
 - Multiple trigger mechanisms: PANIC_KIT, TILE, SHORTCUT, BROADCAST, NOTIFICATION, LOCK, USB, APPLICATION
 - Implemented as bit flags for efficient storage and checking
 - Only TILE, LOCK, and NOTIFICATION are currently enabled in production
 
-**Preferences** (`app/src/main/java/net/oblivion/wipe/Preferences.kt`)
+**Preferences** (`app/src/main/java/net/graphenereset/wipe/Preferences.kt`)
 - Dual storage: encrypted (normal) and device-protected (for direct boot)
 - Uses `EncryptedSharedPreferences` with AES256-GCM encryption
 - Preferences sync between encrypted and unencrypted storage for direct boot compatibility
 
-**Utils** (`app/src/main/java/net/oblivion/wipe/Utils.kt`)
+**Utils** (`app/src/main/java/net/graphenereset/wipe/Utils.kt`)
 - Component enable/disable management (tiles, services, receivers)
 - Trigger activation logic
 - Recast functionality for chaining wipe to other apps
@@ -111,7 +113,7 @@ nix build
 ### Package Structure
 
 ```
-net.oblivion.wipe/
+net.graphenereset.wipe/
 ├── admin/                    # Device admin management
 │   ├── DeviceAdminManager.kt
 │   └── DeviceAdminReceiver.kt
