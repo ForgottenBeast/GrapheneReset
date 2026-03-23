@@ -150,6 +150,9 @@
             buildApkScript
             # gradle2nix for generating dependency lock files
             gradle2nix.packages.${system}.gradle2nix
+            # Java and Gradle for gradle2nix
+            jdk21
+            gradle
             # Additional useful tools
             android-tools # adb, fastboot
             android-studio # Android Studio IDE
@@ -162,6 +165,11 @@
             unzip
             openssh # For release signing with ssh-keygen
           ];
+
+          # Set environment variables for gradle2nix
+          JAVA_HOME = "${pkgs.jdk21}";
+          ANDROID_HOME = "${androidSdk}/share/android-sdk";
+          ANDROID_SDK_ROOT = "${androidSdk}/share/android-sdk";
 
           shellHook = ''
             echo "🤖 GrapheneOS/Android Development Environment"
