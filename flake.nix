@@ -1,5 +1,5 @@
 {
-  description = "Android (GrapheneOS) development environment with Gradle and emulator";
+  description = "GrapheneReset - Hardened Android ROM development environment with Gradle and emulator";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -193,10 +193,10 @@
           '';
         };
 
-        # Package to build APK using gradle2nix
+        # Package to build GrapheneReset APK using gradle2nix
         packages.default = gradle2nix.builders.${system}.buildGradlePackage {
-          pname = "android-app";
-          version = "0.1.0";
+          pname = "graphenereset";
+          version = "2.0.0";
 
           src = ./.;
 
