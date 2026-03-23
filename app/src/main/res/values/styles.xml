@@ -7,4 +7,10 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="NumberPickerStyle">
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/foreground</item>
+        <item name="colorControlNormal">@color/foreground</item>
+    </style>
 </resources>
