@@ -2526,8 +2526,8 @@
     }
   },
   "org.jetbrains.kotlin:fus-statistics-gradle-plugin:2.2.0": {
-    "fus-statistics-gradle-plugin-2.2.0-gradle88.jar": {
-      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/fus-statistics-gradle-plugin/2.2.0/fus-statistics-gradle-plugin-2.2.0-gradle88.jar",
+    "fus-statistics-gradle-plugin-2.2.0-gradle813.jar": {
+      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/fus-statistics-gradle-plugin/2.2.0/fus-statistics-gradle-plugin-2.2.0-gradle813.jar",
       "hash": "sha256-0M+f8jrTjCEO7QzCWlExWjhOYf3BWlP+uGwAvuaRqug="
     },
     "fus-statistics-gradle-plugin-2.2.0.module": {
@@ -2610,9 +2610,9 @@
     }
   },
   "org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.0": {
-    "kotlin-gradle-plugin-2.2.0-gradle88.jar": {
-      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.2.0/kotlin-gradle-plugin-2.2.0-gradle88.jar",
-      "hash": "sha256-fgwirtfhZP3yAInK1WFaDmjCZUR64j7BWjvurId9Jk8="
+    "kotlin-gradle-plugin-2.2.0-gradle813.jar": {
+      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.2.0/kotlin-gradle-plugin-2.2.0-gradle813.jar",
+      "hash": "sha256-g1xNwYoHMl9XkwUMfy52XSNcWWdJVo5HtZe0Sdhnlo0="
     },
     "kotlin-gradle-plugin-2.2.0.module": {
       "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.2.0/kotlin-gradle-plugin-2.2.0.module",
@@ -2634,8 +2634,8 @@
     }
   },
   "org.jetbrains.kotlin:kotlin-gradle-plugin-api:2.2.0": {
-    "kotlin-gradle-plugin-api-2.2.0-gradle88.jar": {
-      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-api/2.2.0/kotlin-gradle-plugin-api-2.2.0-gradle88.jar",
+    "kotlin-gradle-plugin-api-2.2.0-gradle813.jar": {
+      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin-api/2.2.0/kotlin-gradle-plugin-api-2.2.0-gradle813.jar",
       "hash": "sha256-u6au4h0YX3LfiW80jw6nsRdcEc1mNzeZid+JnLSMl+E="
     },
     "kotlin-gradle-plugin-api-2.2.0.jar": {
