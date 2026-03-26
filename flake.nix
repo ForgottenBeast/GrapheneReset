@@ -95,15 +95,34 @@
             # Gradle configuration
             export GRADLE_USER_HOME="$PWD/.gradle"
 
+            # Auto-generate signing keystore if it doesn't exist
+            if [ ! -f app/graphenereset.keystore ]; then
+              echo "🔐 Generating self-signed keystore for APK signing..."
+              keytool -genkeypair \
+                -v \
+                -keystore app/graphenereset.keystore \
+                -alias graphenereset \
+                -keyalg RSA \
+                -keysize 2048 \
+                -validity 10000 \
+                -storepass graphenereset \
+                -keypass graphenereset \
+                -dname "CN=GrapheneReset,OU=Development,O=GrapheneReset,L=Unknown,S=Unknown,C=US" 2>/dev/null
+              echo "✓ Keystore generated successfully"
+              echo ""
+            fi
+
             echo "Android development environment loaded!"
             echo "ANDROID_HOME: $ANDROID_HOME"
             echo "Java version: $(java -version 2>&1 | head -1)"
             echo ""
             echo "Quick commands:"
-            echo "  gradle assembleDebug  - Build debug APK"
-            echo "  gradle assembleRelease - Build release APK"
-            echo "  emulator @<avd-name>  - Start emulator"
-            echo "  adb devices           - List connected devices"
+            echo "  gradle assembleDebug    - Build signed debug APK"
+            echo "  gradle assembleRelease  - Build signed release APK"
+            echo "  emulator @<avd-name>    - Start emulator"
+            echo "  adb devices             - List connected devices"
+            echo ""
+            echo "📝 APKs are automatically signed with app/graphenereset.keystore"
           '';
           runScript = "bash";
         };
@@ -174,6 +193,23 @@
           ANDROID_SDK_ROOT = "${androidSdk}/share/android-sdk";
 
           shellHook = ''
+            # Auto-generate signing keystore if it doesn't exist
+            if [ ! -f app/graphenereset.keystore ]; then
+              echo "🔐 Generating self-signed keystore for APK signing..."
+              ${pkgs.jdk21}/bin/keytool -genkeypair \
+                -v \
+                -keystore app/graphenereset.keystore \
+                -alias graphenereset \
+                -keyalg RSA \
+                -keysize 2048 \
+                -validity 10000 \
+                -storepass graphenereset \
+                -keypass graphenereset \
+                -dname "CN=GrapheneReset,OU=Development,O=GrapheneReset,L=Unknown,S=Unknown,C=US" 2>/dev/null
+              echo "✓ Keystore generated at app/graphenereset.keystore"
+              echo ""
+            fi
+
             echo "🤖 GrapheneOS/Android Development Environment"
             echo "=============================================="
             echo ""
@@ -194,11 +230,11 @@
             echo ""
             echo "🚀 Quick Start:"
             echo "  1. android-env                 - Enter build environment"
-            echo "  2. gradle2nix -t assembleRelease - Generate lock file"
-            echo "  3. exit                        - Leave FHS environment"
-            echo "  4. nix build                   - Build reproducibly"
+            echo "  2. gradle assembleDebug        - Build signed debug APK"
+            echo "  3. gradle assembleRelease      - Build signed release APK"
+            echo "  Or: nix build                  - Build reproducibly with Nix"
             echo ""
-            echo "For full development, run: android-env"
+            echo "📝 Signing: APKs are automatically signed with app/graphenereset.keystore"
             echo "For GrapheneOS compatibility, avoid Google Play Services APIs"
           '';
         };
@@ -231,7 +267,27 @@
           GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/share/android-sdk/build-tools/34.0.0/aapt2";
 
           # Include Android SDK in build inputs
-          nativeBuildInputs = [ androidSdk ];
+          nativeBuildInputs = [ androidSdk pkgs.jdk21 ];
+
+          # Generate self-signed keystore before building
+          preBuild = ''
+            echo "Generating self-signed keystore for APK signing..."
+            if [ ! -f app/graphenereset.keystore ]; then
+              ${pkgs.jdk21}/bin/keytool -genkeypair \
+                -v \
+                -keystore app/graphenereset.keystore \
+                -alias graphenereset \
+                -keyalg RSA \
+                -keysize 2048 \
+                -validity 10000 \
+                -storepass graphenereset \
+                -keypass graphenereset \
+                -dname "CN=GrapheneReset,OU=Development,O=GrapheneReset,L=Unknown,S=Unknown,C=US"
+              echo "Keystore generated successfully"
+            else
+              echo "Keystore already exists, skipping generation"
+            fi
+          '';
 
           installPhase = ''
             mkdir -p $out
