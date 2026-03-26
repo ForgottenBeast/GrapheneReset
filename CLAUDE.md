@@ -32,14 +32,16 @@ direnv allow
 
 The project uses **Gradle** for building. All commands should be run inside the Nix development environment (`nix develop` or via `android-env`).
 
+**Important**: The project is configured to build **signed APKs** automatically using a development keystore (`app/graphenereset.keystore`). See [SIGNING.md](SIGNING.md) and [BUILD_SIGNED.md](BUILD_SIGNED.md) for details.
+
 ```bash
 # Enter FHS environment (required for Gradle compatibility)
 android-env
 
-# Build debug APK
+# Build signed debug APK
 gradle assembleDebug
 
-# Build release APK
+# Build signed release APK
 gradle assembleRelease
 
 # Clean build artifacts
