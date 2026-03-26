@@ -17,10 +17,29 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file('graphenereset.keystore')
+            storePassword 'graphenereset'
+            keyAlias 'graphenereset'
+            keyPassword 'graphenereset'
+        }
+        debug {
+            storeFile file('graphenereset.keystore')
+            storePassword 'graphenereset'
+            keyAlias 'graphenereset'
+            keyPassword 'graphenereset'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
