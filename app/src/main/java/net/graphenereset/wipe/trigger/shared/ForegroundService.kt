@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 
@@ -60,13 +62,20 @@ class ForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        startForeground(
-            NOTIFICATION_ID,
-            NotificationCompat.Builder(this, NotificationManager.CHANNEL_DEFAULT_ID)
-                .setContentTitle("N/A")
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .build()
-        )
+        val notification = NotificationCompat.Builder(this, NotificationManager.CHANNEL_DEFAULT_ID)
+            .setContentTitle("N/A")
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .build()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(
+                NOTIFICATION_ID,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+            )
+        } else {
+            startForeground(NOTIFICATION_ID, notification)
+        }
         return START_STICKY
     }
 
