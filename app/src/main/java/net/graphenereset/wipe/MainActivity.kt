@@ -407,16 +407,41 @@ open class MainActivity : AppCompatActivity() {
             .setCancelable(false)
             .create()
 
-        val daysPicker = dialogView.findViewById<NumberPicker>(R.id.days_picker)
-        daysPicker.minValue = 1
-        daysPicker.maxValue = 365
-        daysPicker.value = 30 // Default to 30 days
+        val valuePicker = dialogView.findViewById<NumberPicker>(R.id.days_picker)
+        val unitSpinner = dialogView.findViewById<Spinner>(R.id.unit_spinner)
+
+        // Get current saved time and determine best unit to display
+        val savedMinutes = Preferences.new(this@MainActivity).triggerLockCount
+        val (defaultValue, defaultUnit) = when {
+            savedMinutes < 60 -> Pair(savedMinutes, 0) // Minutes
+            savedMinutes < 24 * 60 -> Pair(savedMinutes / 60, 1) // Hours
+            else -> Pair(savedMinutes / (24 * 60), 2) // Days
+        }
+
+        // Set up initial values
+        unitSpinner.setSelection(defaultUnit)
+        updatePickerRange(valuePicker, defaultUnit, defaultValue)
+
+        // Update picker range when unit changes
+        unitSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                updatePickerRange(valuePicker, position, valuePicker.value)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
 
         val okButton = dialogView.findViewById<Button>(R.id.ok_button)
         okButton.setOnClickListener {
-            val selectedDays = daysPicker.value
-            val minutesInDay = 24 * 60
-            val totalMinutes = selectedDays * minutesInDay
+            val selectedValue = valuePicker.value
+            val selectedUnit = unitSpinner.selectedItemPosition
+
+            val totalMinutes = when (selectedUnit) {
+                0 -> selectedValue // Minutes
+                1 -> selectedValue * 60 // Hours
+                2 -> selectedValue * 24 * 60 // Days
+                else -> selectedValue * 24 * 60
+            }
+
             setWipeTime(totalMinutes)
             updateCustomTimeDisplay(5, totalMinutes)
             dialog.dismiss()
@@ -431,6 +456,26 @@ open class MainActivity : AppCompatActivity() {
 
         dialog.show()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    private fun updatePickerRange(picker: NumberPicker, unit: Int, currentValue: Int) {
+        when (unit) {
+            0 -> { // Minutes
+                picker.minValue = 1
+                picker.maxValue = 1440 // 24 hours
+                picker.value = currentValue.coerceIn(1, 1440)
+            }
+            1 -> { // Hours
+                picker.minValue = 1
+                picker.maxValue = 720 // 30 days
+                picker.value = currentValue.coerceIn(1, 720)
+            }
+            2 -> { // Days
+                picker.minValue = 1
+                picker.maxValue = 365
+                picker.value = currentValue.coerceIn(1, 365)
+            }
+        }
     }
 
     private fun setQRCode(text: String) {
@@ -490,9 +535,13 @@ open class MainActivity : AppCompatActivity() {
         val customTimeDisplay: TextView = findViewById(R.id.custom_time_display)
 
         if (position == 5) {
-            // Position 5 is "Custom" - show the display
-            val days = minutes / (24 * 60)
-            customTimeDisplay.text = getString(R.string.current_custom_time, days)
+            // Position 5 is "Custom" - show the display in the most appropriate unit
+            val displayText = when {
+                minutes < 60 -> getString(R.string.current_custom_time_minutes, minutes)
+                minutes < 24 * 60 -> getString(R.string.current_custom_time_hours, minutes / 60)
+                else -> getString(R.string.current_custom_time, minutes / (24 * 60))
+            }
+            customTimeDisplay.text = displayText
             customTimeDisplay.visibility = View.VISIBLE
         } else {
             // Preset option selected - hide the display

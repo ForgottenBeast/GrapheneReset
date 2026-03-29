@@ -37,9 +37,18 @@
     </string-array>
     <string name="custom_time_title">Custom Time</string>
     <string name="custom_time_days">Days</string>
+    <string name="custom_time_label">Time Value</string>
+    <string name="custom_time_unit_label">Unit</string>
     <string name="ok">OK</string>
     <string name="wipe_time_no_unlock">Wipe if not unlocked for</string>
     <string name="wipe_no_unlock_title">NO UNLOCK WIPE</string>
     <string name="info_third_part">When the device is not unlocked within the specified time, it will automatically wipe. Be careful to set a sufficient timer before going on holidays or leaving the device in a drawer!</string>
     <string name="current_custom_time">Current: %d days</string>
+    <string name="current_custom_time_minutes">Current: %d minutes</string>
+    <string name="current_custom_time_hours">Current: %d hours</string>
+    <string-array name="time_units">
+        <item>Minutes</item>
+        <item>Hours</item>
+        <item>Days</item>
+    </string-array>
 </resources>
