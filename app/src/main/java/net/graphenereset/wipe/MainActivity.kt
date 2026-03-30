@@ -9,6 +9,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.widget.Spinner
@@ -61,6 +62,7 @@ import java.util.Locale
 open class MainActivity : AppCompatActivity() {
     companion object {
         var id: String = ""
+        private const val REQUEST_CODE_POST_NOTIFICATIONS = 1001
     }
     private lateinit var binding: ActivityMainBinding
     private lateinit var prefs: Preferences
@@ -122,7 +124,18 @@ open class MainActivity : AppCompatActivity() {
             return
         }
 
-        android.util.Log.i("GrapheneReset", "Both permissions granted - setting up triggers")
+        // Finally: POST_NOTIFICATIONS permission (Android 13+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val notifPermission = android.Manifest.permission.POST_NOTIFICATIONS
+            if (checkSelfPermission(notifPermission) != PackageManager.PERMISSION_GRANTED) {
+                android.util.Log.w("GrapheneReset", "POST_NOTIFICATIONS NOT granted - requesting")
+                requestPermissions(arrayOf(notifPermission), REQUEST_CODE_POST_NOTIFICATIONS)
+                return
+            }
+            android.util.Log.d("GrapheneReset", "POST_NOTIFICATIONS granted")
+        }
+
+        android.util.Log.i("GrapheneReset", "All permissions granted - setting up triggers")
         val p = Preferences.new(this)
         p.isEnabled = true
         p.triggers = Trigger.TILE.value or Trigger.LOCK.value or Trigger.NOTIFICATION.value
