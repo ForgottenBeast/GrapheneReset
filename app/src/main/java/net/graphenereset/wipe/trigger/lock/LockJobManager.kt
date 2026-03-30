@@ -18,7 +18,6 @@ class LockJobManager(private val ctx: Context) {
         return scheduler?.schedule(
             JobInfo.Builder(JOB_ID, ComponentName(ctx, LockJobService::class.java))
                 .setMinimumLatency(TimeUnit.MINUTES.toMillis(prefs.triggerLockCount.toLong()))
-                .setBackoffCriteria(0, JobInfo.BACKOFF_POLICY_LINEAR)
                 .setPersisted(true)
                 .build()
         ) ?: JobScheduler.RESULT_FAILURE
