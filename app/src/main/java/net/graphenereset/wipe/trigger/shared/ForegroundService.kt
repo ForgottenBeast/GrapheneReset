@@ -13,6 +13,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 
 import net.graphenereset.wipe.Preferences
+import net.graphenereset.wipe.R
 import net.graphenereset.wipe.Trigger
 import net.graphenereset.wipe.Utils
 import net.graphenereset.wipe.trigger.lock.LockJobManager
@@ -64,6 +65,7 @@ class ForegroundService : Service() {
         super.onStartCommand(intent, flags, startId)
         val notification = NotificationCompat.Builder(this, NotificationManager.CHANNEL_DEFAULT_ID)
             .setContentTitle("N/A")
+            .setSmallIcon(R.drawable.ic_tile_icon_logo)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
