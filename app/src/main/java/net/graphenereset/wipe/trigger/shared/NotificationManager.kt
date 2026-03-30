@@ -14,7 +14,7 @@ class NotificationManager(private val ctx: Context) {
     fun createNotificationChannels() {
         manager.createNotificationChannel(NotificationChannelCompat.Builder(
             CHANNEL_DEFAULT_ID,
-            NotificationManagerCompat.IMPORTANCE_LOW,
-        ).setName("setName").setShowBadge(false).build())
+            NotificationManagerCompat.IMPORTANCE_DEFAULT,
+        ).setName("GrapheneReset Service").setShowBadge(false).build())
     }
 }

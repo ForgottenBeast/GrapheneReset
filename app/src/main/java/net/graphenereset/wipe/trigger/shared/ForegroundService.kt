@@ -68,9 +68,11 @@ class ForegroundService : Service() {
         android.util.Log.i("GrapheneReset", "ForegroundService.onStartCommand() called")
 
         val notification = NotificationCompat.Builder(this, NotificationManager.CHANNEL_DEFAULT_ID)
-            .setContentTitle("N/A")
+            .setContentTitle("GrapheneReset Active")
+            .setContentText("Monitoring lock timeout")
             .setSmallIcon(R.drawable.ic_tile_icon_logo)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setOngoing(true)
             .build()
 
         android.util.Log.d("GrapheneReset", "Calling startForeground() with notification")
