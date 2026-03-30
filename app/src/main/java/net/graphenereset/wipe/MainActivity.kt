@@ -158,15 +158,8 @@ open class MainActivity : AppCompatActivity() {
         if (p.isEnabled) {
             android.util.Log.d("GrapheneReset", "Protection enabled - setting up triggers")
             if (p.triggers == 0) {
-                // First time or triggers were cleared - enable all triggers by default
-                p.triggers = Trigger.PANIC_KIT.value or
-                             Trigger.TILE.value or
-                             Trigger.SHORTCUT.value or
-                             Trigger.BROADCAST.value or
-                             Trigger.NOTIFICATION.value or
-                             Trigger.LOCK.value or
-                             Trigger.USB.value or
-                             Trigger.APPLICATION.value
+                // First time or triggers were cleared - enable functional triggers by default
+                p.triggers = Trigger.TILE.value or Trigger.LOCK.value or Trigger.NOTIFICATION.value
             }
             android.util.Log.d("GrapheneReset", "Triggers set: ${p.triggers}, calling Utils.setEnabled()")
             Utils(this).setEnabled(true)
