@@ -32,7 +32,9 @@ class ForegroundService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        android.util.Log.i("GrapheneReset", "ForegroundService.onCreate() called")
         init()
+        android.util.Log.d("GrapheneReset", "ForegroundService.onCreate() completed")
     }
 
     override fun onDestroy() {
@@ -63,20 +65,28 @@ class ForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
+        android.util.Log.i("GrapheneReset", "ForegroundService.onStartCommand() called")
+
         val notification = NotificationCompat.Builder(this, NotificationManager.CHANNEL_DEFAULT_ID)
             .setContentTitle("N/A")
             .setSmallIcon(R.drawable.ic_tile_icon_logo)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            startForeground(
-                NOTIFICATION_ID,
-                notification,
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
-            )
-        } else {
-            startForeground(NOTIFICATION_ID, notification)
+        android.util.Log.d("GrapheneReset", "Calling startForeground() with notification")
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                startForeground(
+                    NOTIFICATION_ID,
+                    notification,
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+                )
+            } else {
+                startForeground(NOTIFICATION_ID, notification)
+            }
+            android.util.Log.i("GrapheneReset", "startForeground() succeeded - notification should be visible")
+        } catch (e: Exception) {
+            android.util.Log.e("GrapheneReset", "startForeground() FAILED: ${e.message}", e)
         }
         return START_STICKY
     }

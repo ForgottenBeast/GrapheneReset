@@ -144,6 +144,9 @@
             android:directBootAware="true"
             android:exported="false"
             android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Lock timeout monitoring for emergency device wipe" />
         </service>
 
         <receiver

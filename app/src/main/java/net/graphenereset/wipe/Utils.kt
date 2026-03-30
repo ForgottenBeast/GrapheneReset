@@ -29,11 +29,15 @@ class Utils(private val ctx: Context) {
     private val prefs by lazy { Preferences.new(ctx) }
 
     fun setEnabled(enabled: Boolean) {
+        android.util.Log.d("GrapheneReset", "Utils.setEnabled($enabled) called")
         val triggers = prefs.triggers
+        android.util.Log.d("GrapheneReset", "Triggers value: $triggers, LOCK bit: ${triggers.and(Trigger.LOCK.value)}")
 
         setTileEnabled(enabled && triggers.and(Trigger.TILE.value) != 0)
         setNotificationEnabled(enabled && triggers.and(Trigger.NOTIFICATION.value) != 0)
+        android.util.Log.d("GrapheneReset", "Calling updateForegroundRequiredEnabled()")
         updateForegroundRequiredEnabled() // (LOCK / inactivity)
+        android.util.Log.d("GrapheneReset", "Utils.setEnabled() completed")
     }
 
     fun setPanicKitEnabled(enabled: Boolean) {
@@ -88,6 +92,7 @@ class Utils(private val ctx: Context) {
         // ONLY LOCK/inactivity
         val foregroundEnabled = enabled && triggers.and(Trigger.LOCK.value) != 0
 
+        android.util.Log.i("GrapheneReset", "updateForegroundRequiredEnabled: isEnabled=$enabled, triggers=$triggers, LOCK=${triggers.and(Trigger.LOCK.value)}, foregroundEnabled=$foregroundEnabled")
         setForegroundEnabled(foregroundEnabled)
         setComponentEnabled(RestartReceiver::class.java, foregroundEnabled)
     }
@@ -95,8 +100,14 @@ class Utils(private val ctx: Context) {
 
     private fun setForegroundEnabled(enabled: Boolean) =
         Intent(ctx.applicationContext, ForegroundService::class.java).also {
-            if (enabled) ContextCompat.startForegroundService(ctx.applicationContext, it)
-            else ctx.stopService(it)
+            if (enabled) {
+                android.util.Log.i("GrapheneReset", "Starting ForegroundService via startForegroundService()")
+                ContextCompat.startForegroundService(ctx.applicationContext, it)
+                android.util.Log.d("GrapheneReset", "startForegroundService() call completed")
+            } else {
+                android.util.Log.i("GrapheneReset", "Stopping ForegroundService")
+                ctx.stopService(it)
+            }
         }
 
     private fun setComponentEnabled(cls: Class<*>, enabled: Boolean) =

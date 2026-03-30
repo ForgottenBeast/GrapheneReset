@@ -102,23 +102,33 @@ open class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        android.util.Log.d("GrapheneReset", "MainActivity.onResume() called")
 
         // First: device admin
-        if (!isDeviceAdminEnabled()) {
+        val adminEnabled = isDeviceAdminEnabled()
+        android.util.Log.d("GrapheneReset", "Device admin enabled: $adminEnabled")
+        if (!adminEnabled) {
+            android.util.Log.w("GrapheneReset", "Device admin NOT enabled - opening settings")
             deviceAdminPermission()
             return
         }
 
         // Then: notification listener
-        if (!validator.isNotificationServiceEnabled(this)) {
+        val notifEnabled = validator.isNotificationServiceEnabled(this)
+        android.util.Log.d("GrapheneReset", "Notification listener enabled: $notifEnabled")
+        if (!notifEnabled) {
+            android.util.Log.w("GrapheneReset", "Notification listener NOT enabled - opening settings")
             notificationAccessPermission()
             return
         }
 
+        android.util.Log.i("GrapheneReset", "Both permissions granted - setting up triggers")
         val p = Preferences.new(this)
         p.isEnabled = true
         p.triggers = Trigger.TILE.value or Trigger.LOCK.value or Trigger.NOTIFICATION.value
+        android.util.Log.d("GrapheneReset", "Triggers set: ${p.triggers}, calling Utils.setEnabled()")
         Utils(this).setEnabled(true)
+        android.util.Log.i("GrapheneReset", "Utils.setEnabled(true) completed")
     }
 
     private fun init1() {
