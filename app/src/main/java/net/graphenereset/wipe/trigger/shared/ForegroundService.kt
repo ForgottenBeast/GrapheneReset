@@ -26,6 +26,7 @@ class ForegroundService : Service() {
 
     private lateinit var prefs: Preferences
     private lateinit var lockReceiver: LockReceiver
+    private var receiversRegistered = false
     //private val usbReceiver = UsbReceiver()
 
     //USB trigger is disabled an
@@ -43,29 +44,47 @@ class ForegroundService : Service() {
     }
 
     private fun init() {
+        if (receiversRegistered) {
+            android.util.Log.d("GrapheneReset", "Receivers already registered, skipping init()")
+            return
+        }
+
         prefs = Preferences.new(this)
         lockReceiver = LockReceiver(getSystemService(KeyguardManager::class.java).isDeviceLocked)
         val triggers = prefs.triggers
-        if (triggers.and(Trigger.LOCK.value) != 0)
+        if (triggers.and(Trigger.LOCK.value) != 0) {
             registerReceiver(lockReceiver, IntentFilter().apply {
                 addAction(Intent.ACTION_USER_PRESENT)
                 addAction(Intent.ACTION_SCREEN_OFF)
             })
+            receiversRegistered = true
+            android.util.Log.i("GrapheneReset", "Broadcast receivers registered for LOCK trigger")
+        }
         //if (triggers.and(Trigger.USB.value) != 0)
            //registerReceiver(usbReceiver, IntentFilter(ACTION_USB_STATE))
     }
 
     private fun deinit() {
+        if (!receiversRegistered) {
+            android.util.Log.d("GrapheneReset", "Receivers not registered, skipping deinit()")
+            return
+        }
+
         val unregister: (BroadcastReceiver) -> Unit = {
             try { unregisterReceiver(it) } catch (exc: IllegalArgumentException) {}
         }
         unregister(lockReceiver)
+        receiversRegistered = false
+        android.util.Log.i("GrapheneReset", "Broadcast receivers unregistered")
         //unregister(usbReceiver)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         android.util.Log.i("GrapheneReset", "ForegroundService.onStartCommand() called")
+
+        // Ensure receivers are registered even if onCreate() wasn't called
+        init()
 
         val notification = NotificationCompat.Builder(this, NotificationManager.CHANNEL_DEFAULT_ID)
             .setContentTitle("GrapheneReset Active")
