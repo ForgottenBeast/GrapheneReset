@@ -117,6 +117,9 @@ open class MainActivity : AppCompatActivity() {
         }
 
         // Then: notification listener
+        // Enable the service component first so it appears in settings
+        Utils(this).setNotificationEnabled(true)
+
         val notifEnabled = validator.isNotificationServiceEnabled(this)
         android.util.Log.d("GrapheneReset", "Notification listener enabled: $notifEnabled")
         if (!notifEnabled) {
