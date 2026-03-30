@@ -30,8 +30,15 @@ class LockJobService : JobService() {
         if (lastUnlock <= 0L) return false
 
         val timeoutMs = TimeUnit.MINUTES.toMillis(prefs.triggerLockCount.toLong())
-        if (System.currentTimeMillis() - lastUnlock < timeoutMs) return false
+        if (System.currentTimeMillis() - lastUnlock < timeoutMs) {
+            // Timeout not reached yet, reschedule to check again in 1 minute
+            android.util.Log.d("GrapheneReset", "LockJobService: Timeout not reached yet, rescheduling")
+            LockJobManager(this).schedule()
+            return false
+        }
 
+        // Timeout reached - trigger wipe
+        android.util.Log.i("GrapheneReset", "LockJobService: Timeout reached, triggering wipe")
         WipeManager.requestWipe(this, Trigger.LOCK)
         return false
     }
