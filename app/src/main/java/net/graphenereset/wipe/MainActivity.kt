@@ -1,6 +1,7 @@
 package net.graphenereset.wipe
 
 import android.app.Activity
+import android.app.KeyguardManager
 import android.app.admin.DevicePolicyManager
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -397,7 +398,23 @@ open class MainActivity : AppCompatActivity() {
     private fun setWipeTime(minutes: Int) {
         Preferences.new(this@MainActivity).triggerLockCount = minutes
 
-        LockJobManager(this@MainActivity).cancel()
+        val lockJobManager = LockJobManager(this@MainActivity)
+        lockJobManager.cancel()
+
+        // If device is currently locked, reschedule the job with the new timeout
+        val km = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
+        val isLocked = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            km.isDeviceLocked
+        } else {
+            km.isKeyguardLocked
+        }
+
+        if (isLocked) {
+            val prefs = Preferences(this@MainActivity, encrypted = false)
+            if (prefs.lastUnlockTime > 0L) {
+                lockJobManager.schedule()
+            }
+        }
     }
 
     private fun showCustomTimeDialog(spinner: Spinner, previousPosition: Int) {
