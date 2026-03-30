@@ -11,8 +11,8 @@ android {
         applicationId "net.graphenereset.wipe"
         minSdk 24
         targetSdk 33
-        versionCode 49
-        versionName "1.0.10"
+        versionCode 50
+        versionName "1.0.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

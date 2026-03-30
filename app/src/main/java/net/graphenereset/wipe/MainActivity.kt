@@ -412,6 +412,12 @@ open class MainActivity : AppCompatActivity() {
         // Show custom time display if position is 5 (Custom)
         updateCustomTimeDisplay(position, savedMinutes)
 
+        // Make custom time display clickable to edit the value
+        val customTimeDisplay: TextView = findViewById(R.id.custom_time_display)
+        customTimeDisplay.setOnClickListener {
+            showCustomTimeDialog(spinner, spinner.selectedItemPosition)
+        }
+
         selectWipeTime(spinner)
     }
 
@@ -719,6 +725,9 @@ open class MainActivity : AppCompatActivity() {
             }
             customTimeDisplay.text = displayText
             customTimeDisplay.visibility = View.VISIBLE
+            // Make it look clickable
+            customTimeDisplay.isClickable = true
+            customTimeDisplay.isFocusable = true
         } else {
             // Preset option selected - hide the display
             customTimeDisplay.visibility = View.GONE
