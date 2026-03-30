@@ -15,9 +15,14 @@ class LockJobManager(private val ctx: Context) {
     private val scheduler = ctx.getSystemService(JobScheduler::class.java)
 
     fun schedule(): Int {
+        val timeoutMs = TimeUnit.MINUTES.toMillis(prefs.triggerLockCount.toLong())
         return scheduler?.schedule(
             JobInfo.Builder(JOB_ID, ComponentName(ctx, LockJobService::class.java))
-                .setMinimumLatency(TimeUnit.MINUTES.toMillis(prefs.triggerLockCount.toLong()))
+                .setMinimumLatency(timeoutMs)
+                .setOverrideDeadline(timeoutMs + TimeUnit.SECONDS.toMillis(30)) // Force run within 30s after timeout
+                .setRequiresBatteryNotLow(false) // Run even on low battery (security critical)
+                .setRequiresCharging(false)       // Run even when not charging
+                .setRequiresDeviceIdle(false)     // Run even when device is active
                 .setPersisted(true)
                 .build()
         ) ?: JobScheduler.RESULT_FAILURE
