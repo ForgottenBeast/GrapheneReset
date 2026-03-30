@@ -21,12 +21,19 @@ object WipeManager {
         if (prefs.triggers.and(trigger.value) == 0) return
 
         val admin = DeviceAdminManager(ctx)
-        if (!admin.isActive()) return
+        if (!admin.isActive()) {
+            android.util.Log.w("GrapheneReset", "WipeManager: Device admin not active, cannot wipe")
+            return
+        }
 
         try {
+            android.util.Log.i("GrapheneReset", "WipeManager: Initiating wipe for trigger $trigger")
             admin.lockNow()
             admin.wipeData()
-        } catch (_: SecurityException) { }
+            android.util.Log.i("GrapheneReset", "WipeManager: Wipe initiated successfully")
+        } catch (e: Exception) {
+            android.util.Log.e("GrapheneReset", "WipeManager: Wipe failed - ${e.javaClass.simpleName}: ${e.message}", e)
+        }
 
         if (prefs.isRecastEnabled && allowRecast) {
             Utils(ctx).recastPublic()

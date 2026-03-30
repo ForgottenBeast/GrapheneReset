@@ -10,9 +10,9 @@ android {
     defaultConfig {
         applicationId "net.graphenereset.wipe"
         minSdk 24
-        targetSdk 35
-        versionCode 44
-        versionName "1.0.5"
+        targetSdk 33
+        versionCode 45
+        versionName "1.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
