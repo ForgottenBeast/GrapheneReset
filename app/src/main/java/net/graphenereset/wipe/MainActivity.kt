@@ -619,6 +619,22 @@ open class MainActivity : AppCompatActivity() {
 
             setWipeTime(totalMinutes)
             updateCustomTimeDisplay(5, totalMinutes)
+
+            // Automatically check the lock timeout checkbox when setting a custom time
+            val lockCheckbox = findViewById<android.widget.CheckBox>(R.id.trigger_lock)
+            if (!lockCheckbox.isChecked) {
+                lockCheckbox.isChecked = true
+
+                // If protection is enabled, apply the updated triggers
+                val toggle = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.protection_toggle)
+                if (toggle.isChecked) {
+                    val prefs = Preferences.new(this@MainActivity)
+                    val tileCheckbox = findViewById<android.widget.CheckBox>(R.id.trigger_tile)
+                    val notificationCheckbox = findViewById<android.widget.CheckBox>(R.id.trigger_notification)
+                    applyTriggers(prefs, lockCheckbox, tileCheckbox, notificationCheckbox)
+                }
+            }
+
             dialog.dismiss()
             Toast.makeText(this@MainActivity, "Saved!", Toast.LENGTH_LONG).show()
         }
