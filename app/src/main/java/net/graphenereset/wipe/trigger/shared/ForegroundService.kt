@@ -87,6 +87,7 @@ class ForegroundService : Service() {
                 return
             when (intent?.action) {
                 Intent.ACTION_USER_PRESENT -> {
+                    locked = false
                     Preferences(context, encrypted = false).lastUnlockTime = System.currentTimeMillis()
                     LockJobManager(context).cancel()
                 }
