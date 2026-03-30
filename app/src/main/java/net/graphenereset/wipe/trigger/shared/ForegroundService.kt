@@ -72,7 +72,9 @@ class ForegroundService : Service() {
             .setContentText("Monitoring lock timeout")
             .setSmallIcon(R.drawable.ic_tile_icon_logo)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setOngoing(true)
+            .setAutoCancel(false)
             .build()
 
         android.util.Log.d("GrapheneReset", "Calling startForeground() with notification")

@@ -134,6 +134,18 @@ open class MainActivity : AppCompatActivity() {
                 return
             }
             android.util.Log.d("GrapheneReset", "POST_NOTIFICATIONS granted")
+
+            // Check if notification channel is enabled
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+            val channel = notificationManager.getNotificationChannel(net.graphenereset.wipe.trigger.shared.NotificationManager.CHANNEL_DEFAULT_ID)
+            if (channel != null && channel.importance == android.app.NotificationManager.IMPORTANCE_NONE) {
+                android.util.Log.w("GrapheneReset", "Notification channel disabled - showing warning")
+                Toast.makeText(
+                    this,
+                    "Warning: Notifications are disabled. Service may not stay active.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         android.util.Log.i("GrapheneReset", "All permissions granted - applying protection state")
