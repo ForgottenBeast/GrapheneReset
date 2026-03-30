@@ -100,6 +100,7 @@ open class MainActivity : AppCompatActivity() {
         qrCodeOnClick()
         showInformation()
         initSpinner()
+        initProtectionToggle()
     }
 
     override fun onResume() {
@@ -135,13 +136,41 @@ open class MainActivity : AppCompatActivity() {
             android.util.Log.d("GrapheneReset", "POST_NOTIFICATIONS granted")
         }
 
-        android.util.Log.i("GrapheneReset", "All permissions granted - setting up triggers")
+        android.util.Log.i("GrapheneReset", "All permissions granted - applying protection state")
         val p = Preferences.new(this)
-        p.isEnabled = true
-        p.triggers = Trigger.TILE.value or Trigger.LOCK.value or Trigger.NOTIFICATION.value
-        android.util.Log.d("GrapheneReset", "Triggers set: ${p.triggers}, calling Utils.setEnabled()")
-        Utils(this).setEnabled(true)
-        android.util.Log.i("GrapheneReset", "Utils.setEnabled(true) completed")
+
+        // Apply current protection state (respects user's toggle setting)
+        if (p.isEnabled) {
+            android.util.Log.d("GrapheneReset", "Protection enabled - setting up triggers")
+            if (p.triggers == 0) {
+                // First time or triggers were cleared - set defaults
+                p.triggers = Trigger.TILE.value or Trigger.LOCK.value or Trigger.NOTIFICATION.value
+            }
+            android.util.Log.d("GrapheneReset", "Triggers set: ${p.triggers}, calling Utils.setEnabled()")
+            Utils(this).setEnabled(true)
+            android.util.Log.i("GrapheneReset", "Utils.setEnabled(true) completed")
+        } else {
+            android.util.Log.d("GrapheneReset", "Protection disabled by user - not starting service")
+        }
+
+        // Update toggle UI to reflect current state
+        findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.protection_toggle)?.isChecked = p.isEnabled
+        updateProtectionStatus(p.isEnabled, findViewById(R.id.protection_status))
+
+        // Update trigger checkboxes
+        val triggers = p.triggers
+        findViewById<android.widget.CheckBox>(R.id.trigger_lock)?.apply {
+            isChecked = triggers.and(Trigger.LOCK.value) != 0
+            isEnabled = p.isEnabled
+        }
+        findViewById<android.widget.CheckBox>(R.id.trigger_tile)?.apply {
+            isChecked = triggers.and(Trigger.TILE.value) != 0
+            isEnabled = p.isEnabled
+        }
+        findViewById<android.widget.CheckBox>(R.id.trigger_notification)?.apply {
+            isChecked = triggers.and(Trigger.NOTIFICATION.value) != 0
+            isEnabled = p.isEnabled
+        }
     }
 
     private fun init1() {
@@ -437,6 +466,91 @@ open class MainActivity : AppCompatActivity() {
             if (prefs.lastUnlockTime > 0L) {
                 lockJobManager.schedule()
             }
+        }
+    }
+
+    private fun initProtectionToggle() {
+        val toggle = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.protection_toggle)
+        val statusText = findViewById<TextView>(R.id.protection_status)
+        val lockCheckbox = findViewById<android.widget.CheckBox>(R.id.trigger_lock)
+        val tileCheckbox = findViewById<android.widget.CheckBox>(R.id.trigger_tile)
+        val notificationCheckbox = findViewById<android.widget.CheckBox>(R.id.trigger_notification)
+
+        // Set initial state from preferences
+        val p = Preferences.new(this@MainActivity)
+        val isEnabled = p.isEnabled
+        val triggers = p.triggers
+
+        toggle.isChecked = isEnabled
+        updateProtectionStatus(isEnabled, statusText)
+
+        // Set checkbox states from saved triggers
+        lockCheckbox.isChecked = triggers.and(Trigger.LOCK.value) != 0
+        tileCheckbox.isChecked = triggers.and(Trigger.TILE.value) != 0
+        notificationCheckbox.isChecked = triggers.and(Trigger.NOTIFICATION.value) != 0
+
+        // Enable/disable checkboxes based on protection state
+        lockCheckbox.isEnabled = isEnabled
+        tileCheckbox.isEnabled = isEnabled
+        notificationCheckbox.isEnabled = isEnabled
+
+        // Handle toggle changes
+        toggle.setOnCheckedChangeListener { _, isChecked ->
+            val prefs = Preferences.new(this@MainActivity)
+            prefs.isEnabled = isChecked
+
+            // Enable/disable checkboxes
+            lockCheckbox.isEnabled = isChecked
+            tileCheckbox.isEnabled = isChecked
+            notificationCheckbox.isEnabled = isChecked
+
+            if (isChecked) {
+                // Apply selected triggers
+                applyTriggers(prefs, lockCheckbox, tileCheckbox, notificationCheckbox)
+                updateProtectionStatus(true, statusText)
+                Toast.makeText(this@MainActivity, "Protection enabled", Toast.LENGTH_SHORT).show()
+            } else {
+                // Disable all triggers
+                prefs.triggers = 0
+                Utils(this@MainActivity).setEnabled(false)
+                updateProtectionStatus(false, statusText)
+                Toast.makeText(this@MainActivity, "Protection disabled", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Handle individual trigger checkbox changes
+        val triggerChangeListener = android.widget.CompoundButton.OnCheckedChangeListener { _, _ ->
+            if (toggle.isChecked) {
+                val prefs = Preferences.new(this@MainActivity)
+                applyTriggers(prefs, lockCheckbox, tileCheckbox, notificationCheckbox)
+            }
+        }
+
+        lockCheckbox.setOnCheckedChangeListener(triggerChangeListener)
+        tileCheckbox.setOnCheckedChangeListener(triggerChangeListener)
+        notificationCheckbox.setOnCheckedChangeListener(triggerChangeListener)
+    }
+
+    private fun applyTriggers(
+        prefs: Preferences,
+        lockCheckbox: android.widget.CheckBox,
+        tileCheckbox: android.widget.CheckBox,
+        notificationCheckbox: android.widget.CheckBox
+    ) {
+        var triggers = 0
+        if (lockCheckbox.isChecked) triggers = triggers or Trigger.LOCK.value
+        if (tileCheckbox.isChecked) triggers = triggers or Trigger.TILE.value
+        if (notificationCheckbox.isChecked) triggers = triggers or Trigger.NOTIFICATION.value
+
+        prefs.triggers = triggers
+        Utils(this@MainActivity).setEnabled(true)
+    }
+
+    private fun updateProtectionStatus(enabled: Boolean, statusText: TextView) {
+        statusText.text = if (enabled) {
+            "Active - Monitoring lock timeout"
+        } else {
+            "Disabled - Device not protected"
         }
     }
 
