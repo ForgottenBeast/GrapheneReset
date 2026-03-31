@@ -94,7 +94,7 @@ class Utils(private val ctx: Context) {
 
         android.util.Log.i("GrapheneReset", "updateForegroundRequiredEnabled: isEnabled=$enabled, triggers=$triggers, LOCK=${triggers.and(Trigger.LOCK.value)}, foregroundEnabled=$foregroundEnabled")
         setForegroundEnabled(foregroundEnabled)
-        setComponentEnabled(RestartReceiver::class.java, foregroundEnabled)
+        // RestartReceiver is always enabled to handle boot and check for expired lock timeouts
     }
 
 
