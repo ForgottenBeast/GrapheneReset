@@ -45,11 +45,19 @@ class Preferences(ctx: Context, encrypted: Boolean = true) {
 
     var lastUnlockTime: Long
         get() = prefs.getLong(LAST_UNLOCK_TIME, 0L)
-        set(value) = prefs.edit { putLong(LAST_UNLOCK_TIME, value) }
+        set(value) {
+            // Use commit() instead of apply() for synchronous write
+            // This ensures the timestamp is persisted before shutdown
+            prefs.edit().putLong(LAST_UNLOCK_TIME, value).commit()
+        }
 
     var lastLockTime: Long
         get() = prefs.getLong(LAST_LOCK_TIME, 0L)
-        set(value) = prefs.edit { putLong(LAST_LOCK_TIME, value) }
+        set(value) {
+            // Use commit() instead of apply() for synchronous write
+            // This ensures the timestamp is persisted before shutdown
+            prefs.edit().putLong(LAST_LOCK_TIME, value).commit()
+        }
 
     private val prefs: SharedPreferences = if (encrypted) {
         val mk = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
