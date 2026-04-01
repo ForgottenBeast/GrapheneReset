@@ -37,6 +37,12 @@ class ForegroundService : Service() {
             updateHandler.postDelayed(this, 60000) // Update every minute
         }
     }
+    private val refreshReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            android.util.Log.i("GrapheneReset", "Received notification refresh broadcast")
+            updateNotification()
+        }
+    }
     //private val usbReceiver = UsbReceiver()
 
     //USB trigger is disabled an
@@ -51,6 +57,11 @@ class ForegroundService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         updateHandler.removeCallbacks(updateRunnable)
+        try {
+            unregisterReceiver(refreshReceiver)
+        } catch (exc: IllegalArgumentException) {
+            // Receiver wasn't registered
+        }
         deinit()
     }
 
@@ -62,6 +73,10 @@ class ForegroundService : Service() {
 
         prefs = Preferences.new(this)
         lockReceiver = LockReceiver(getSystemService(KeyguardManager::class.java).isDeviceLocked, this)
+
+        // Register refresh receiver to handle notification updates from MainActivity
+        registerReceiver(refreshReceiver, IntentFilter("net.graphenereset.wipe.REFRESH_NOTIFICATION"))
+
         val triggers = prefs.triggers
         if (triggers.and(Trigger.LOCK.value) != 0) {
             registerReceiver(lockReceiver, IntentFilter().apply {
@@ -121,9 +136,17 @@ class ForegroundService : Service() {
         val elapsed = if (lockStartTime > 0L) currentTime - lockStartTime else 0L
         val remaining = if (lockStartTime > 0L && isLocked) timeoutMs - elapsed else timeoutMs
 
+        val timeoutHours = TimeUnit.MINUTES.toHours(timeoutMinutes.toLong())
+        val timeoutDays = timeoutHours / 24
+        val timeoutDisplay = when {
+            timeoutDays > 0 -> "$timeoutDays days"
+            timeoutHours > 0 -> "${timeoutHours}h"
+            else -> "${timeoutMinutes}m"
+        }
+
         val contentText = when {
-            !isLocked -> "Device unlocked - timer reset"
-            lockStartTime == 0L -> "Waiting for first lock event"
+            !isLocked -> "Unlocked - Timeout: $timeoutDisplay - DO NOT DISMISS"
+            lockStartTime == 0L -> "Timeout: $timeoutDisplay - Waiting for lock"
             remaining <= 0 -> "⚠️ TIMEOUT EXPIRED - Wipe pending"
             else -> {
                 val hours = TimeUnit.MILLISECONDS.toHours(remaining)

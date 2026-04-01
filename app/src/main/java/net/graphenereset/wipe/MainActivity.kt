@@ -164,6 +164,9 @@ open class MainActivity : AppCompatActivity() {
             android.util.Log.d("GrapheneReset", "Triggers set: ${p.triggers}, calling Utils.setEnabled()")
             Utils(this).setEnabled(true)
             android.util.Log.i("GrapheneReset", "Utils.setEnabled(true) completed")
+
+            // Force notification refresh to ensure it's visible after unlock
+            sendBroadcast(Intent("net.graphenereset.wipe.REFRESH_NOTIFICATION"))
         } else {
             android.util.Log.d("GrapheneReset", "Protection disabled by user - not starting service")
         }
