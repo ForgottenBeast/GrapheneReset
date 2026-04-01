@@ -102,7 +102,7 @@
         android:minHeight="44dp"
         android:paddingStart="0dp"
         android:paddingEnd="40dp"
-        android:popupBackground="@drawable/spinner_dropdown"
+        android:popupBackground="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/showIdField"
         app:layout_constraintStart_toStartOf="@+id/showIdField"

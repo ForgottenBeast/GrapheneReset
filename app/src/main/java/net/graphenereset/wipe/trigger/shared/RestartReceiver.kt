@@ -72,10 +72,15 @@ class RestartReceiver : BroadcastReceiver() {
             }
         }
 
-        android.util.Log.i("GrapheneReset", "RestartReceiver: Starting ForegroundService")
-        ContextCompat.startForegroundService(
-            context.applicationContext,
-            Intent(context.applicationContext, ForegroundService::class.java),
-        )
+        // Only start ForegroundService if protection is enabled
+        if (lockEnabled && lockPrefs.isEnabled) {
+            android.util.Log.i("GrapheneReset", "RestartReceiver: Starting ForegroundService")
+            ContextCompat.startForegroundService(
+                context.applicationContext,
+                Intent(context.applicationContext, ForegroundService::class.java),
+            )
+        } else {
+            android.util.Log.i("GrapheneReset", "RestartReceiver: Protection disabled, not starting ForegroundService")
+        }
     }
 }

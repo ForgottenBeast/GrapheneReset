@@ -9,8 +9,11 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ServiceInfo
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import androidx.core.app.NotificationCompat
+import java.util.concurrent.TimeUnit
 
 import net.graphenereset.wipe.Preferences
 import net.graphenereset.wipe.R
@@ -27,6 +30,13 @@ class ForegroundService : Service() {
     private lateinit var prefs: Preferences
     private lateinit var lockReceiver: LockReceiver
     private var receiversRegistered = false
+    private val updateHandler = Handler(Looper.getMainLooper())
+    private val updateRunnable = object : Runnable {
+        override fun run() {
+            updateNotification()
+            updateHandler.postDelayed(this, 60000) // Update every minute
+        }
+    }
     //private val usbReceiver = UsbReceiver()
 
     //USB trigger is disabled an
@@ -40,6 +50,7 @@ class ForegroundService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        updateHandler.removeCallbacks(updateRunnable)
         deinit()
     }
 
@@ -50,7 +61,7 @@ class ForegroundService : Service() {
         }
 
         prefs = Preferences.new(this)
-        lockReceiver = LockReceiver(getSystemService(KeyguardManager::class.java).isDeviceLocked)
+        lockReceiver = LockReceiver(getSystemService(KeyguardManager::class.java).isDeviceLocked, this)
         val triggers = prefs.triggers
         if (triggers.and(Trigger.LOCK.value) != 0) {
             registerReceiver(lockReceiver, IntentFilter().apply {
@@ -86,17 +97,53 @@ class ForegroundService : Service() {
         // Ensure receivers are registered even if onCreate() wasn't called
         init()
 
+        updateNotification()
+
+        // Start periodic updates
+        updateHandler.removeCallbacks(updateRunnable)
+        updateHandler.postDelayed(updateRunnable, 60000)
+
+        return START_STICKY
+    }
+
+    internal fun updateNotification() {
+        val lockPrefs = Preferences(this, encrypted = false)
+        val lastLock = lockPrefs.lastLockTime
+        val lastUnlock = lockPrefs.lastUnlockTime
+        val timeoutMinutes = lockPrefs.triggerLockCount
+        val timeoutMs = TimeUnit.MINUTES.toMillis(timeoutMinutes.toLong())
+        val currentTime = System.currentTimeMillis()
+
+        val km = getSystemService(KeyguardManager::class.java)
+        val isLocked = km.isDeviceLocked
+
+        val lockStartTime = if (lastLock > 0L) lastLock else lastUnlock
+        val elapsed = if (lockStartTime > 0L) currentTime - lockStartTime else 0L
+        val remaining = if (lockStartTime > 0L && isLocked) timeoutMs - elapsed else timeoutMs
+
+        val contentText = when {
+            !isLocked -> "Device unlocked - timer reset"
+            lockStartTime == 0L -> "Waiting for first lock event"
+            remaining <= 0 -> "⚠️ TIMEOUT EXPIRED - Wipe pending"
+            else -> {
+                val hours = TimeUnit.MILLISECONDS.toHours(remaining)
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(remaining) % 60
+                "⚠️ Wipes in ${hours}h ${minutes}m - DO NOT DISMISS"
+            }
+        }
+
         val notification = NotificationCompat.Builder(this, NotificationManager.CHANNEL_DEFAULT_ID)
             .setContentTitle("GrapheneReset Active")
-            .setContentText("Monitoring lock timeout")
+            .setContentText(contentText)
             .setSmallIcon(R.drawable.ic_tile_icon_logo)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setOngoing(true)
             .setAutoCancel(false)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
             .build()
 
-        android.util.Log.d("GrapheneReset", "Calling startForeground() with notification")
+        android.util.Log.d("GrapheneReset", "Updating notification: $contentText")
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 startForeground(
@@ -107,16 +154,15 @@ class ForegroundService : Service() {
             } else {
                 startForeground(NOTIFICATION_ID, notification)
             }
-            android.util.Log.i("GrapheneReset", "startForeground() succeeded - notification should be visible")
+            android.util.Log.i("GrapheneReset", "Notification updated successfully")
         } catch (e: Exception) {
-            android.util.Log.e("GrapheneReset", "startForeground() FAILED: ${e.message}", e)
+            android.util.Log.e("GrapheneReset", "Failed to update notification: ${e.message}", e)
         }
-        return START_STICKY
     }
 
     override fun onBind(intent: Intent?): IBinder? { return null }
 
-    private class LockReceiver(private var locked: Boolean) : BroadcastReceiver() {
+    private class LockReceiver(private var locked: Boolean, private val service: ForegroundService) : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (Preferences.new(context ?: return).triggers.and(Trigger.LOCK.value) == 0)
                 return
@@ -127,6 +173,8 @@ class ForegroundService : Service() {
                     prefs.lastUnlockTime = System.currentTimeMillis()
                     prefs.lastLockTime = 0L  // Clear lock time on unlock
                     LockJobManager(context).cancel()
+                    // Update notification immediately
+                    service.updateNotification()
                 }
                 Intent.ACTION_SCREEN_OFF -> {
                     if (locked) return
@@ -134,6 +182,8 @@ class ForegroundService : Service() {
                     // Set lock time when screen turns off
                     Preferences(context, encrypted = false).lastLockTime = System.currentTimeMillis()
                     Thread(Runner(context, goAsync())).start()
+                    // Update notification immediately
+                    service.updateNotification()
                 }
             }
         }
