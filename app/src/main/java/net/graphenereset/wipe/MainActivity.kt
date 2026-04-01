@@ -179,7 +179,7 @@ open class MainActivity : AppCompatActivity() {
         val triggers = p.triggers
         findViewById<android.widget.CheckBox>(R.id.trigger_lock)?.apply {
             isChecked = triggers.and(Trigger.LOCK.value) != 0
-            isEnabled = p.isEnabled
+            isEnabled = true  // Always enabled for quick access
         }
         findViewById<android.widget.CheckBox>(R.id.trigger_tile)?.apply {
             isChecked = triggers.and(Trigger.TILE.value) != 0
@@ -472,7 +472,10 @@ open class MainActivity : AppCompatActivity() {
     }
 
     private fun setWipeTime(minutes: Int) {
-        Preferences.new(this@MainActivity).triggerLockCount = minutes
+        // Save to both encrypted and device-protected storage
+        prefs.triggerLockCount = minutes
+        prefsdb.triggerLockCount = minutes
+        android.util.Log.i("GrapheneReset", "Timeout set to $minutes minutes in both storage contexts")
 
         val lockJobManager = LockJobManager(this@MainActivity)
         lockJobManager.cancel()
@@ -491,6 +494,9 @@ open class MainActivity : AppCompatActivity() {
                 lockJobManager.schedule()
             }
         }
+
+        // Refresh notification to show updated timeout
+        sendBroadcast(Intent("net.graphenereset.wipe.REFRESH_NOTIFICATION"))
     }
 
     private fun initProtectionToggle() {
@@ -514,7 +520,8 @@ open class MainActivity : AppCompatActivity() {
         notificationCheckbox.isChecked = triggers.and(Trigger.NOTIFICATION.value) != 0
 
         // Enable/disable checkboxes based on protection state
-        lockCheckbox.isEnabled = isEnabled
+        // Lock timeout checkbox is always enabled for quick access
+        lockCheckbox.isEnabled = true
         tileCheckbox.isEnabled = isEnabled
         notificationCheckbox.isEnabled = isEnabled
 
@@ -523,8 +530,8 @@ open class MainActivity : AppCompatActivity() {
             val prefs = Preferences.new(this@MainActivity)
             prefs.isEnabled = isChecked
 
-            // Enable/disable checkboxes
-            lockCheckbox.isEnabled = isChecked
+            // Enable/disable checkboxes (lock timeout always enabled for quick access)
+            lockCheckbox.isEnabled = true
             tileCheckbox.isEnabled = isChecked
             notificationCheckbox.isEnabled = isChecked
 
@@ -550,7 +557,18 @@ open class MainActivity : AppCompatActivity() {
             }
         }
 
-        lockCheckbox.setOnCheckedChangeListener(triggerChangeListener)
+        // Special handler for lock timeout checkbox - enables protection automatically
+        lockCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked && !toggle.isChecked) {
+                // Auto-enable protection when lock timeout is checked
+                toggle.isChecked = true
+                android.util.Log.i("GrapheneReset", "Auto-enabled protection via lock timeout checkbox")
+            } else if (toggle.isChecked) {
+                // Protection already enabled, just update triggers
+                val prefs = Preferences.new(this@MainActivity)
+                applyTriggers(prefs, lockCheckbox, tileCheckbox, notificationCheckbox)
+            }
+        }
         tileCheckbox.setOnCheckedChangeListener(triggerChangeListener)
         notificationCheckbox.setOnCheckedChangeListener(triggerChangeListener)
     }

@@ -99,7 +99,10 @@ class Preferences(ctx: Context, encrypted: Boolean = true) {
             TRIGGER_LOCK_COUNT,
             prefs.getInt(WIPE_ON_INACTIVITY_COUNT, DEFAULT_TRIGGER_LOCK_COUNT),
         )
-        set(value) = prefs.edit { putInt(TRIGGER_LOCK_COUNT, value) }
+        set(value) {
+            // Use commit() for synchronous write to ensure persistence
+            prefs.edit().putInt(TRIGGER_LOCK_COUNT, value).commit()
+        }
 
     var triggerTileDelay: Long
         get() = prefs.getLong(TRIGGER_TILE_DELAY, DEFAULT_TRIGGER_TILE_DELAY)
