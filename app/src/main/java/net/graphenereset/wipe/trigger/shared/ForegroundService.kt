@@ -123,12 +123,16 @@ class ForegroundService : Service() {
             when (intent?.action) {
                 Intent.ACTION_USER_PRESENT -> {
                     locked = false
-                    Preferences(context, encrypted = false).lastUnlockTime = System.currentTimeMillis()
+                    val prefs = Preferences(context, encrypted = false)
+                    prefs.lastUnlockTime = System.currentTimeMillis()
+                    prefs.lastLockTime = 0L  // Clear lock time on unlock
                     LockJobManager(context).cancel()
                 }
                 Intent.ACTION_SCREEN_OFF -> {
                     if (locked) return
                     locked = true
+                    // Set lock time when screen turns off
+                    Preferences(context, encrypted = false).lastLockTime = System.currentTimeMillis()
                     Thread(Runner(context, goAsync())).start()
                 }
             }
