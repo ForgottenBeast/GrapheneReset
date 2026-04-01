@@ -381,7 +381,7 @@ open class MainActivity : AppCompatActivity() {
             R.array.wipe_time_options,
             R.layout.spinner_index
         )
-        adapter.setDropDownViewResource(R.layout.spinner_index)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spinner.adapter = adapter
 
         // Make dropdown width match the spinner
@@ -591,7 +591,7 @@ open class MainActivity : AppCompatActivity() {
             R.array.time_units,
             R.layout.spinner_index
         )
-        unitAdapter.setDropDownViewResource(R.layout.spinner_index)
+        unitAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         unitSpinner.adapter = unitAdapter
 
         // Get current saved time and determine best unit to display
