@@ -4,5 +4,6 @@
     <color name="foreground">#006a6a</color>
     <color name="cancel">#E40B0B</color>
     <color name="text">#f5f5f5</color>
+    <color name="text_secondary">#999999</color>
     <color name="popup_background">#141314</color>
 </resources>

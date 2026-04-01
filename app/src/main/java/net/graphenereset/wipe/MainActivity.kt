@@ -585,6 +585,15 @@ open class MainActivity : AppCompatActivity() {
         val valuePicker = dialogView.findViewById<NumberPicker>(R.id.days_picker)
         val unitSpinner = dialogView.findViewById<Spinner>(R.id.unit_spinner)
 
+        // Set up custom adapter for unit spinner to fix dark mode text color
+        val unitAdapter = ArrayAdapter.createFromResource(
+            this@MainActivity,
+            R.array.time_units,
+            R.layout.spinner_index
+        )
+        unitAdapter.setDropDownViewResource(R.layout.spinner_index)
+        unitSpinner.adapter = unitAdapter
+
         // Get current saved time and determine best unit to display
         val savedMinutes = Preferences.new(this@MainActivity).triggerLockCount
         val (defaultValue, defaultUnit) = when {

@@ -10,7 +10,7 @@
 
     <style name="NumberPickerStyle">
         <item name="android:textColorPrimary">@color/text</item>
-        <item name="android:textColorSecondary">@color/foreground</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="colorControlNormal">@color/foreground</item>
     </style>
 </resources>

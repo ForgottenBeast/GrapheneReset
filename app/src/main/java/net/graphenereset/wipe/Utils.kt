@@ -93,6 +93,18 @@ class Utils(private val ctx: Context) {
         val foregroundEnabled = enabled && triggers.and(Trigger.LOCK.value) != 0
 
         android.util.Log.i("GrapheneReset", "updateForegroundRequiredEnabled: isEnabled=$enabled, triggers=$triggers, LOCK=${triggers.and(Trigger.LOCK.value)}, foregroundEnabled=$foregroundEnabled")
+
+        // Initialize lastUnlockTime if LOCK trigger is enabled and timestamp is unset
+        if (foregroundEnabled) {
+            val lockPrefs = Preferences(ctx, encrypted = false)
+            if (lockPrefs.lastUnlockTime == 0L) {
+                // First time enabling LOCK trigger - initialize baseline timestamp
+                val currentTime = System.currentTimeMillis()
+                lockPrefs.lastUnlockTime = currentTime
+                android.util.Log.i("GrapheneReset", "Initialized lastUnlockTime to $currentTime (first time LOCK trigger enabled)")
+            }
+        }
+
         setForegroundEnabled(foregroundEnabled)
         // RestartReceiver is always enabled to handle boot and check for expired lock timeouts
     }
