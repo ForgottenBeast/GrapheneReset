@@ -497,6 +497,13 @@ open class MainActivity : AppCompatActivity() {
 
         // Refresh notification to show updated timeout
         sendBroadcast(Intent("net.graphenereset.wipe.REFRESH_NOTIFICATION"))
+
+        // Ensure notification appears if protection is enabled
+        val p = Preferences.new(this@MainActivity)
+        if (p.isEnabled && p.triggers.and(Trigger.LOCK.value) != 0) {
+            android.util.Log.i("GrapheneReset", "Protection enabled with lock trigger, ensuring service is running")
+            Utils(this@MainActivity).setEnabled(true)
+        }
     }
 
     private fun initProtectionToggle() {

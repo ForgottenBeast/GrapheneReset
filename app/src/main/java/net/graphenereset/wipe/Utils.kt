@@ -97,11 +97,15 @@ class Utils(private val ctx: Context) {
         // Initialize lastUnlockTime if LOCK trigger is enabled and timestamp is unset
         if (foregroundEnabled) {
             val lockPrefs = Preferences(ctx, encrypted = false)
-            if (lockPrefs.lastUnlockTime == 0L) {
+            val currentUnlockTime = lockPrefs.lastUnlockTime
+            android.util.Log.i("GrapheneReset", "Checking lastUnlockTime: $currentUnlockTime")
+            if (currentUnlockTime == 0L) {
                 // First time enabling LOCK trigger - initialize baseline timestamp
                 val currentTime = System.currentTimeMillis()
                 lockPrefs.lastUnlockTime = currentTime
                 android.util.Log.i("GrapheneReset", "Initialized lastUnlockTime to $currentTime (first time LOCK trigger enabled)")
+            } else {
+                android.util.Log.i("GrapheneReset", "lastUnlockTime already set to $currentUnlockTime, skipping initialization")
             }
         }
 
