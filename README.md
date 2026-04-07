@@ -81,45 +81,8 @@ git clone https://github.com/ForgottenBeast/GrapheneReset.git
 cd GrapheneReset
 ```
 
-2. Enter the development environment:
+2. Build the apk
 ```bash
-nix develop
-```
-
-This automatically provides:
-- Android SDK (API 35) with GrapheneOS-required build tools (36.0.0)
-- Android NDK (29.0.14206865)
-- JDK 21
-- Gradle
-- gradle2nix for dependency locking
-- Android emulator and development tools
-
-### Building the APK
-
-#### Method 1: Interactive Development (Recommended)
-
-```bash
-# Enter FHS environment for Gradle compatibility
-nix develop
-android-env
-
-# Inside the android-env shell:
-gradle assembleDebug      # Build debug APK
-gradle assembleRelease    # Build release APK
-```
-
-The built APKs are located in `app/build/outputs/apk/`.
-
-#### Method 2: Reproducible Build with gradle2nix
-
-```bash
-# Generate dependency lock file
-nix develop
-android-env
-gradle2nix -t assembleRelease
-exit  # Leave android-env
-
-# Build reproducibly using Nix
 nix build
 ```
 
